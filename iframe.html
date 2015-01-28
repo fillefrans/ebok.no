@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="no">
+<head>
+
+  <!--[if lt IE 9]>
+
+  <script src="audio.min.js"></script>
+    <link rel="stylesheet" href="index.css" media="screen">
+    <script>
+      audiojs.events.ready(function() {
+        audiojs.createAll();
+      });
+    </script>
+
+  <![endif]-->
+
+  <title>Ebok</title>
+  <!-- open links in new window -->
+  <base target="_blank">
+
+  <meta charset="utf-8">
+  <!--[if lte IE 9]>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+  <![endif]-->
+
+
+  <meta name="viewport"  content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
+
+  <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/icon-114.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="assets/ico/icon-72.png">
+  <link rel="apple-touch-icon-precomposed"                 href="assets/ico/icon-57.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  <style>
+
+    @font-face {
+      font-family: 'ApexSansMedium';
+      src: url('ApexSansMedium.eot');
+      src: url('ApexSansMedium.eot') format('embedded-opentype'),
+           url('ApexSansMedium.woff2') format('woff2'),
+           url('ApexSansMedium.woff') format('woff'),
+           url('ApexSansMedium.ttf') format('truetype'),
+           url('ApexSansMedium.svg#ApexSansMedium') format('svg');
+      font-style  : normal;
+      font-weight : 400;
+    }
+
+    @font-face {
+      font-family: 'ApexSansBook';
+      src: url('ApexSansBook.eot');
+      src: url('ApexSansBook.eot') format('embedded-opentype'),
+           url('ApexSansBook.woff2') format('woff2'),
+           url('ApexSansBook.woff') format('woff'),
+           url('ApexSansBook.ttf') format('truetype'),
+           url('ApexSansBook.svg#ApexSansBook') format('svg');
+      font-style  : normal;
+      font-weight : 300;
+    }
+
+
+    @font-face {
+      font-family: 'ApexSansBold';
+      src: url('ApexSansBold.eot');
+      src: url('ApexSansBold.eot') format('embedded-opentype'),
+           url('ApexSansBold.woff2') format('woff2'),
+           url('ApexSansBold.woff') format('woff'),
+           url('ApexSansBold.ttf') format('truetype'),
+           url('ApexSansBold.svg#ApexSansBold') format('svg');
+      font-style  : normal;
+      font-weight : 700;
+    }
+
+    body {
+      margin   : 0;
+      padding  : 0;
+    }
+
+    #apDiv1 {
+      position  : absolute;
+      width     : 980px;
+      height    : 115px;
+      z-index   : 1;
+    }
+
+    #apDiv2 {
+
+      -webkit-perspective: 800px;
+         -moz-perspective: 800px;
+          -ms-perspective: 800px;
+           -o-perspective: 800px;
+              perspective: 800px;
+
+      background-image: url('bg.svg');
+      position        : relative;
+      display         : block;
+      width           : 980px;
+      height          : 300px;
+      z-index         : 2;
+      left            : 121px;
+      top             : 129px;
+      background-color: #A8213D;
+      color           : #fff;
+      overflow        : hidden;
+
+      /* Make text non-selectable */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      /* Use normal cursor */
+      cursor: default;
+
+    }
+
+    #apDiv3 {
+      display   : block;
+      position  : relative;
+      z-index   : 2;
+      left      : 0px;
+      top       : 140px;
+    }
+
+
+
+  </style>
+
+
+
+</head>
+ 
+<body>
+
+
+<div id="apDiv1"><img src="./assets/img/ap-bg.png" width="1338" height="1334"> </div>
+
+  <iframe id="apDiv2" src="iframe.html" frameborder="0" width="980" height="300" scrolling="no"></iframe>
+<!-- </iframe> -->
+
+<div id="apDiv3"><img src="./assets/img/ap-nettside.png" width="1112" height="910"> </div>
+
+
+</body>
+</html>
