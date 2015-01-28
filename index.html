@@ -28,10 +28,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
 
-  <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/icon-114.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="assets/ico/icon-72.png">
-  <link rel="apple-touch-icon-precomposed"                 href="assets/ico/icon-57.png">
+  <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/icon-114.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="../assets/ico/icon-72.png">
+  <link rel="apple-touch-icon-precomposed"                 href="../assets/ico/icon-57.png">
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
   <style>
 
@@ -322,9 +322,7 @@
       transform: rotateY(180deg);
     }
 
-
   </style>
-
 
 
 </head>
@@ -732,17 +730,17 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("ebokContent").addEventListener("click", preventDef, true);
     document.getElementById("ebokMain").onclick = null;
     document.getElementById("ebokMain").addEventListener("click", function(e) {
-      console.log("target : " + e.target, e.target);
+      // console.log("target : " + e.target, e.target);
       if (e.target instanceof HTMLDivElement && e.target.id != "touchTarget") {
         window.open("https://ebok.no/", "new_window");
       }
       else {
         if (e.target instanceof HTMLImageElement && e.target.alt.indexOf("/") === 0) {
-          console.log("Opening : " + e.target.alt)
+          // console.log("Opening : " + e.target.alt);
           ApK.audio.play("https://ebok.no" + e.target.alt);
         }
         else {
-          console.log("NOT Opening : " + e.target.style.class)
+          // console.log("NOT Opening : " + e.target.style.class)
         }
       }
     }, true);
@@ -750,16 +748,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // partial = '<div class="ebokListItem"><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div style="position: absolute; text-align: center;font-size: 44px; color: black">{i}</div><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
 
+// The template for our book items
+
  partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="position:absolute; top:112px; left: 50px; z-index: 200000;"><img class="playBtn" src="play.svg" width="40" height="40" alt="{sample_url}"></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
 
 
-    if (books) {
-      // partial = books.innerHTML;
-    }
+    // if (books) {
+    //   // partial = books.innerHTML;
+    // }
 
 
 
-    console.log("starting");
+    // console.log("starting");
 
     // initialize
     pos = carousel.getBoundingClientRect();
@@ -826,11 +826,11 @@ document.addEventListener("DOMContentLoaded", function() {
         listItems = document.getElementsByClassName("ebokListItem"),
         itemCount = listItems.length;
 
-      console.log("Found " + itemCount + " list items");
+      // console.log("Found " + itemCount + " list items");
 
       if (listItems && listItems.length) {
         listItems.forEach(function(p,i,a) {
-          console.log("i: " + i);
+          // console.log("i: " + i);
         });
       }
 
@@ -839,19 +839,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function nextItem (e) {
-      console.log("nextItem :preventDefault()");
+      // console.log("nextItem :preventDefault()");
       e.preventDefault();
       desiredAngle += angleStep;
       // desiredAngle %= 360;
       console.log("nextItem(), currentAngle : " + currentAngle + ", desiredAngle : " + desiredAngle);
       _active = true;
-      setInactiveBook(frontItem);
-      frontItem--;
-      if (frontItem < 0) {
-        frontItem = items.length-1;
-      }
-      setActiveBook(frontItem);
-      setPos();
+      animate();
     }
 
     function prevItem (e) {
@@ -861,12 +855,30 @@ document.addEventListener("DOMContentLoaded", function() {
       // desiredAngle %= 360;
       console.log("prevItem(), currentAngle : " + currentAngle + ", desiredAngle : " + desiredAngle);
       _active = true;
-      frontItem++;
-      frontItem %= items.length;
-      setActiveBook(frontItem);
-      setPos();
+      animate();
     }
 
+
+    function setTopmost() {
+      
+    }
+
+    /**
+     * Move this angle to the front of the screen
+     * @param   {angle}  angle  Angle, in degrees
+     * @return  {void}         
+     */
+    function moveTo(angle) {
+      // a quick type check
+      if (typeof angle == "number") {
+        desiredAngle = angle % 360;
+        _active = true;
+        // start the animation
+        animate();
+        return true;
+      }
+      return false;
+    }
 
     function _init () {
       var 
@@ -937,18 +949,18 @@ document.addEventListener("DOMContentLoaded", function() {
        
     }
 
-    function setPos () {
+    function animate () {
       var 
         // t = new Date().getTime(),
         angle, pos, x, z, angleDelta, highestZ = 0;
 
-      if (typeof setPos != "function") {
-        console.log("is a " + typeof setPos);
+      if (typeof animate != "function") {
+        console.log("is a " + typeof animate);
         return;
       }
 
       if(_active) {
-        requestAnimationFrame(setPos);
+        requestAnimationFrame(animate);
       }
       else {
         return;
@@ -1028,7 +1040,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // start animation
-    // setPos();
+    // animate();
 
     function getPos(angle) {
       return {
@@ -1051,14 +1063,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-   function clearList(elem) {
+   function removeChildren(elem) {
       var 
         element   = elem || document.getElementById("ebokList"),
         removed   = 0;
 
       // clear element
       if (!element) {
-        console.error("No element in clearList()");
+        console.error("No element in removeChildren()");
         return false;
       }
       while (element.firstChild) {
@@ -1075,6 +1087,7 @@ document.addEventListener("DOMContentLoaded", function() {
         maxCount  = 11,
         itemCount = 0,
         fragment  = document.createDocumentFragment(),
+        // container is a <ul>
         container = document.getElementById("ebokList");
  
      // console.log("arr.length : " + arr.length);
@@ -1106,7 +1119,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // console.log("Clearing existing list");
-      clearList();
+      removeChildren(container);
       // console.log("Appending children");
       container.appendChild(fragment);
       // set initial positions
@@ -1164,9 +1177,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!!data) {
           // console.log("attaching listeners");
           select.addEventListener("change", onCategoryChange,   true);
-          carousel.addEventListener("mousemove",  onMouseMove,  true);
-          carousel.addEventListener("mouseover",  onMouseOver,  true);
-          carousel.addEventListener("mouseout",   onMouseOut,   true);
+          // carousel.addEventListener("mousemove",  onMouseMove,  true);
+          // carousel.addEventListener("mouseover",  onMouseOver,  true);
+          // carousel.addEventListener("mouseout",   onMouseOut,   true);
           prevBtn.addEventListener("click", prevItem, true);
           nextBtn.addEventListener("click", nextItem, true);
           showCategory(data['barnebker']);

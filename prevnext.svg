@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="233.25"
-   height="238.15625"
+   width="58.3125"
+   height="59.53125"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="prevnext.svg">
+   sodipodi:docname="prevnext.svg"
+   inkscape:export-filename="C:\work\html5\ebok.no\prevnext.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="-223.54361"
-     inkscape:cy="-85.999152"
+     inkscape:cx="-484.25352"
+     inkscape:cy="-175.31165"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,15 +58,20 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-236.65625,-109)">
+     transform="translate(-324.125,-198.3125)">
     <path
-       style="fill:#ffffff;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 353.28125,109.5 c -64.13961,0 -116.125,53.07731 -116.125,118.5625 0,65.48519 51.98539,118.59375 116.125,118.59375 64.13961,0 116.125,-53.10856 116.125,-118.59375 0,-65.48519 -51.98539,-118.5625 -116.125,-118.5625 z"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.25;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 353.28125,198.43359 c -16.0349,0 -29.03125,13.26933 -29.03125,29.64063 0,16.3713 12.99635,29.64844 29.03125,29.64844 16.0349,0 29.03125,-13.27714 29.03125,-29.64844 0,-16.3713 -12.99635,-29.64063 -29.03125,-29.64063 z"
        id="path3759"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        id="g3786"
-       transform="matrix(0.5486589,0,0,0.5486589,161.23993,98.953246)">
+       transform="matrix(0.13716472,0,0,0.13716472,305.27092,195.79691)"
+       inkscape:export-filename="C:\work\html5\ebok.no\path3759.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          inkscape:connector-curvature="0"
          id="path3766"
