@@ -176,8 +176,8 @@
       width: 160px;
       height: 28px;
       padding-top: 2px;
-      /*display: none;*/
-      opacity: 0;
+      display: none;
+      opacity: 1;
       cursor: pointer;
       -webkit-transition: opacity .5s ease-out;
       transition: opacity .5s ease-out;
@@ -200,6 +200,8 @@
 
     .ebokPlayButton {
       cursor: pointer;
+      -webkit-transition: opacity .5s ease-out;
+      transition: opacity .5s ease-out;
     }
 
 
@@ -269,6 +271,8 @@
       text-align: center;
       perspective: 1000px;
       -webkit-perspective: 1000px;
+      -webkit-transition: opacity .5s ease-out;
+      transition: opacity .5s ease-out;
     }
 
     #ebokList li {
@@ -707,14 +711,16 @@ document.addEventListener("DOMContentLoaded", function() {
       centerY   = 0,
       startX    = 0,
       startY    = 0,
-      currentAngle = 0,
-      desiredAngle = 0,
+      currentAngle = 269,
+      desiredAngle = 270,
       previousItem  = null,
       selectedItem = null,
-      _currentItem = 3,
-      frontItem = null,
+      _currentItem = 0,
+      upperMost = null,
       angleStep = 0,
       highestZ  = 0,
+      lowestZ   = null,
+      maxZ      = 0,
       _active   = false,
       prevBtn   = document.getElementById("ebokPrev"),
       nextBtn   = document.getElementById("ebokNext"),
@@ -738,7 +744,7 @@ document.addEventListener("DOMContentLoaded", function() {
       else {
         if (e.target instanceof HTMLImageElement && e.target.alt.indexOf("/") === 0) {
           // console.log("Opening : " + e.target.alt);
-          ApK.audio.play("https://ebok.no" + e.target.alt);
+          // ApK.audio.play("https://ebok.no" + e.target.alt);
         }
         else {
           // console.log("NOT Opening : " + e.target.style.class)
@@ -751,7 +757,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // The template for our book items
 
- partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="color:black; font: bold 24px sans-serif;">{i}</span><a  href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
+ partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0.5;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a  href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
 
 
     // if (books) {
@@ -824,8 +830,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function nextItem (e) {
+      var
+        fromItem = _currentItem;
       // console.log("nextItem :preventDefault()");
-      e.preventDefault();
+      if (e && e.preventDefault) 
+        e.preventDefault();
+  
       if (!(items && items.length)) {
         return false;
       }
@@ -833,25 +843,22 @@ document.addEventListener("DOMContentLoaded", function() {
       if (!angleStep) {
         return false;
       }
-      console.log("moving from " + _currentItem + " to " + ((_currentItem+items.length)-1)%items.length);
-      _currentItem = ((--_currentItem+items.length))%items.length;
-      // desiredAngle %= 360;
-      desiredAngle = _currentItem*angleStep;
-      // console.log("nextItem(), currentAngle : " + currentAngle + ", desiredAngle : " + desiredAngle);
-      _active = true;
-      animate();
+      _currentItem++;
+      console.log("moving from " + fromItem + ", moving to " + (_currentItem));
+
+      moveToItem(_currentItem);
     }
 
     function prevItem (e) {
       e.preventDefault();
 
-      _currentItem = ((--_currentItem+items.length))%items.length;
+      _currentItem--;
+      if (_currentItem < 0) {
+        _currentItem += items.length;
+      }
       // desiredAngle %= 360;
-      desiredAngle = _currentItem*angleStep;
+      moveToItem(_currentItem);
       // console.log("nextItem(), currentAngle : " + currentAngle + ", desiredAngle : " + desiredAngle);
-      _active = true;
-      _active = true;
-      animate();
     }
 
 
@@ -860,8 +867,10 @@ document.addEventListener("DOMContentLoaded", function() {
         item = item || null;
 
       if (topMost) {
-
+        setInactiveBook(topMost);
       }
+      console.log("setTopmost("+ item +")");
+      setActiveBook(item);
     }
 
     /**
@@ -872,7 +881,11 @@ document.addEventListener("DOMContentLoaded", function() {
     function moveToAngle(angle) {
       // a quick type check
       if (typeof angle == "number") {
-        desiredAngle = angle % 360;
+        if (angle < 0) {
+          console.log("adding 360degrees, because angle is " + angle);
+          angle += 360;
+        }
+        desiredAngle = angle ;
         _active = true;
         // start the animation
         animate();
@@ -888,13 +901,35 @@ document.addEventListener("DOMContentLoaded", function() {
      * @return  {void}         
      */
     function moveToItem(item) {
+      var
+        myAngle = 0, myItem = 0;
       // a quick type check
       if (typeof item == "number") {
         if (item >= items.length) {
           console.log("Overflow ..");
           // return false;
+          // item;
         }
-        desiredAngle = (item * angleStep) % 360;
+        myItem = item;
+        if (myItem<0) {
+          myItem += items.length;
+        }
+        myAngle = (270+ (myItem * angleStep));
+
+
+        if (myAngle>360 && Math.abs((myAngle-desiredAngle) > (2*angleStep))) {
+          console.log("changing target angle to " + (myAngle-360) + ", from angle " + myAngle);
+          myAngle-=360;
+        }
+        if (desiredAngle == myAngle) {
+          // desiredAngle
+        }
+        if (myAngle < 0) {
+          console.log("myAngle < 0!");
+        }
+        console.log("moving from angle " + desiredAngle + ", to angle " + myAngle);
+
+        desiredAngle = myAngle;
         _active = true;
         // start the animation
         animate();
@@ -909,20 +944,28 @@ document.addEventListener("DOMContentLoaded", function() {
       var 
         angle, pos, x, z, angleDelta, 
         zMax    = 0, 
-        topMost = 0;
+        topMost = 5;
+
+
+        console.log("_init()");
+        moveToItem(5);
+        return;
 
       // yes, virginia - these are the local globals
       angle = 0;
       desiredAngle = desiredAngle || 0;
-      currentAngle = currentAngle || 0;
+      currentAngle = currentAngle || 270;
       _currentItem = _currentItem || 0;
+
+
 
       if (items && items.length) {
         angleStep = 360/items.length;
         items.forEach(function(p,i,a) {
           var
             offset  = 360*(i/items.length),
-            pos     = getPos((angle + offset)),
+
+            pos     = getPos(270+(angle + offset)),
             zIndex  = 0;
 
           // console.log("_init : " + i);
@@ -938,10 +981,16 @@ document.addEventListener("DOMContentLoaded", function() {
           p.style[transformPrefix] = "translateY(" + centerY + "px) translateZ(" + pos.z + "px)" + "translateX(" + pos.x + "px)";
         });
 
-        if (_currentItem !== topMost) {
-          console.log("setActiveBook(" + topMost + "), was " + _currentItem);
-          _currentItem = topMost;
-          setActiveBook(topMost);
+        if (upperMost !== topMost) {
+          if (upperMost === null) {
+            upperMost = topMost;
+            setActiveBook(upperMost);
+            return;
+          }
+          else {
+            _currentItem = topMost;
+            setActiveBook(topMost);
+          }
         }
       }
       else {
@@ -954,62 +1003,68 @@ document.addEventListener("DOMContentLoaded", function() {
     function setActiveBook(bookNo) {
       var
         book        = items[bookNo] || null,
-        bookButton  = null;
+        bookButton  = null,
+        playButton  = null;
 
 
       if (!book) {
         console.log("No Book!");
       }
 
-      bookButton = document.getElementsByClassName("ebokBuyButton").item(0);
+      bookButton = book.getElementsByClassName("ebokBuyButton").item(0) || false;
+      playButton = book.getElementsByClassName("ebokPlayButton").item(0) || false;
 
       if(!book && !bookButton) {
-        console.log("setInactiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
+        console.log("setActiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
         return false;
       }
 
-
-
-      if (frontItem !== null) {
-        // blank the previous front item
-        items[frontItem].getElementsByClassName("ebokBuyButton").item(0).style.display = "none";
-        // bookButton.style.visibility = "hidden";
-      }
-      frontItem = bookNo;
       // then show the new front item
       bookButton.style.display    = "block";
-      // bookButton.style.visibility = "visible";
+      bookButton.style.visibility = "visible";
       bookButton.style.opacity    = 1;
 
-      console.log("setActiveBook() - bookNo : " + bookNo + ", book: " + book, book);
+      playButton.style.opacity = 1;
+      // playButton.style.visibility = "visible";
+
+      console.log("setting active book - bookNo : " + bookNo + ", book: " + book, book);
     }
 
 
     function setInactiveBook(bookNo) {
       var
         book = items[bookNo] || null,
-        bookButton = document.getElementsByClassName("ebokBuyButton").item(0) || null;
+        bookButton  = null,
+        playButton  = null;
+
+      if (!book) {
+        console.log("No Book!");
+      }
+
+      bookButton = book.getElementsByClassName("ebokBuyButton").item(0) || false;
+      playButton = book.getElementsByClassName("ebokPlayButton").item(0) || false;
 
       if(!book && !bookButton) {
-        console.log("setInactiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
+        console.log("setActiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
         return false;
       }
-      // console.log("setInactiveBook() - bookNo : " + bookNo + ", book: " + book, book);
-      book.getElementsByClassName("ebokBuyButton").item(0).style.class = "ebokBuyButton";
-      // book.getElementsByClassName("ebokBuyButton").item(0).style.visibility = "hidden";
-      book.getElementsByClassName("ebokBuyButton").item(0).style.opacity = 0;
-       
+
+      // then hide the former front item
+      // bookButton.style.display    = "none";
+      bookButton.style.opacity    = 0;
+      bookButton.style.visibility = "hidden";
+
+      playButton.style.opacity = 0.005;
+      // playButton.style.visibility = "hidden";
+
+      console.log("setting active book - bookNo : " + bookNo + ", book: " + book, book);
+
     }
+
 
     function animate () {
       var 
-        // t = new Date().getTime(),
         angle, pos, x, z, angleDelta, highestZ = 0;
-
-      if (typeof animate != "function") {
-        console.log("is a " + typeof animate);
-        return;
-      }
 
       if(_active) {
         requestAnimationFrame(animate);
@@ -1025,69 +1080,72 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      angleDelta = (desiredAngle - currentAngle)/12;
+      angleDelta = (desiredAngle - currentAngle)/20;
 
       // console.log("angleDelta : " + angleDelta);
       if (Math.abs(angleDelta) < 0.01) {
         currentAngle = desiredAngle;
         _active = false;
-        var selectedItem = Math.round((360 - (currentAngle % 360)) / angleStep);
-        if (selectedItem < items.length) {
-          // console.log("Setting black background on item #" + selectedItem);
-          // console.log(items[selectedItem], items[selectedItem]);
-          // items[selectedItem].style.backgroundColor = "#000";
-          // if (previousItem && typeof previousItem.getElementsByClassName == "function") {
-          //   previousItem.getElementsByClassName("ebokBuyButton").item(0).style.display = "none";
-          // }
-          // selectedItem = items[selectedItem];
-          // if (selectedItem && typeof selectedItem.getElementsByClassName == "function") {
-          //   selectedItem.getElementsByClassName("ebokBuyButton").item(0).style.display = "block";
-          //   selectedItem.getElementsByClassName("ebokBuyButton").item(0).style.opacity = 1;
-          // }
-          // previousItem = selectedItem;
-        }
-        // items[]
       }
       else {
         currentAngle += angleDelta;
       }
 
-      if (items && items.length) {
+      if (!(items && items.length)) {
+        _active = false;
+        console.error("not items or items.length")
+        return false;
+      }
+
         angleStep = 360/items.length;
         items.forEach(function(p,i,a) {
           var
             offset = 360*(i/items.length),
-            pos = getPos((currentAngle + offset) % 360),
+            pos = getPos((currentAngle + offset)),
             zIndex = Math.ceil((pos.z + 1440));
 
 
           p.style.zIndex = zIndex;
-          if (zIndex > highestZ) {
-            highestZ = zIndex;
-            topMost  = i;
+          if (lowestZ === null) {
+            lowestZ = zIndex;
           }
-          // zIndex = p.getElementsByClassName("zIndex");
-          // if (zIndex && zIndex.length) {
-          //   zIndex = zIndex.item(0);
-          //   // zIndex.innerHTML = p.style.zIndex;
-          // }
+          else if (zIndex < lowestZ) {
+            lowestZ = zIndex;
+          }
+          if (zIndex > highestZ) {
+            // console.log("highestZ : " + highestZ);
+            highestZ = zIndex;
+            if (maxZ<highestZ)
+              maxZ = highestZ;
+            topMost  = i;
+            p.style.opacity = 1;
+          }
+          else {
+            p.style.opacity = 0.8;
+            // set opacity to 
+            // p.style.opacity = 0.5;
 
-          // if (Math.ceil((angle + offset) % 360) == 0) {
-          //   p.innerHTML = "Item : " + i + ", at angle " + ((angle + offset) % 360) + ", and at z-index " + p.style.zIndex;
-          //   p.style.backgroundColor = "#000";
-          //   // alert("Zero!");
-          // }
-
-          // console.log("Item : " + i + ", at angle " + ((angle + offset) % 360) + ", and at z-index " + p.style.zIndex);
+          }
 
           // p.style.opacity = (pos.z + 1440) / 1440;
           p.style[transformPrefix] = "translateY(" + centerY +"px) translateZ(" + pos.z + "px)" + "translateX(" + pos.x + "px)";
 
-        }); 
-      // console.log("topMost : " + topMost);
+        });
+      if (topMost != upperMost) {
+        if (upperMost === null) {
+          console.log("topMost goes from " + upperMost + " to " + topMost);
+          upperMost = topMost;
+          setActiveBook(topMost);
+          return;
+        }
+
+        console.log("topMost goes from " + upperMost + " to " + topMost);
+        setInactiveBook(upperMost);
+        upperMost = topMost;
+        setActiveBook(topMost);
       }
       else {
-        console.log("NO ITEMS!");
+        // console.log("topMost : " + topMost);
       }
     }
 
@@ -1136,7 +1194,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showCategory(arr) {
       var
-        maxCount  = 11,
+        maxCount  = 10,
         itemCount = 0,
         fragment  = document.createDocumentFragment(),
         // container is a <ul>
@@ -1175,7 +1233,17 @@ document.addEventListener("DOMContentLoaded", function() {
       // console.log("Appending children");
       container.appendChild(fragment);
       // set initial positions
-      _init();
+      if (!window.ebokFirstRun) {
+        window.ebokFirstRun = true;
+        moveToItem(5);
+      }
+      else {
+        // _active = true:
+        _init();
+        // moveToAngle(desiredAngle);
+        setTimeout(nextItem, 100);
+        // animate();
+      }
     }
 
 
@@ -1223,7 +1291,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     xhr.onload = function () {
-      console.log("onload!");
+      // console.log("onload!");
       try {
         data = JSON.parse(this.responseText);
         if (!!data) {
@@ -1237,11 +1305,11 @@ document.addEventListener("DOMContentLoaded", function() {
           showCategory(data['barnebker']);
         }
         else {
-          console.log("data : ", data);
+          console.error("data : ", data);
         }
       }
       catch (e) {
-        console.log(e.name + " : " + e.message);
+        console.error("caught " + e.name + " : " + e.message + " in xhr.onload()");
       }
     };
 
