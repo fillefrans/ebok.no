@@ -2,44 +2,29 @@
 <html lang="no">
 <head>
 
-  <!--[if lt IE 9]>
+  <title>Ebok.no</title>
 
-  <script src="audio.min.js"></script>
-    <link rel="stylesheet" href="index.css" media="screen">
-    <script>
-      audiojs.events.ready(function() {
-        audiojs.createAll();
-      });
-    </script>
-
-  <![endif]-->
-
-  <title>Ebok</title>
   <!-- open links in new window -->
   <base target="_blank">
 
   <meta charset="utf-8">
-  <!--[if lte IE 9]>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
-  <![endif]-->
 
+  <meta name="author" content="Aftenposten Kreateam - Johan Telstad">
+  <meta name="description" content="HTML5 dynamisk annonse med lytteprøve. For ebok">
 
-  <meta name="viewport"  content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
-
-  <link rel="shortcut icon" href="../assets/ico/favicon.ico">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/icon-114.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="../assets/ico/icon-72.png">
-  <link rel="apple-touch-icon-precomposed"                 href="../assets/ico/icon-57.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <!-- AdForm DHTML Tracker -->
+  <script src="http://track.adform.net/banners/scripts/rmb/Adform.DHTML.js"></script>
+
   <style>
 
+    /* AdForm does not recognize woff2 as a format, so we omit it below */
     @font-face {
       font-family: 'ApexSansMedium';
       src: url('ApexSansMedium.eot');
       src: url('ApexSansMedium.eot') format('embedded-opentype'),
-           url('ApexSansMedium.woff2') format('woff2'),
            url('ApexSansMedium.woff') format('woff'),
            url('ApexSansMedium.ttf') format('truetype'),
            url('ApexSansMedium.svg#ApexSansMedium') format('svg');
@@ -47,32 +32,7 @@
       font-weight : 400;
     }
 
-/*    @font-face {
-      font-family: 'ApexSansBook';
-      src: url('ApexSansBook.eot');
-      src: url('ApexSansBook.eot') format('embedded-opentype'),
-           url('ApexSansBook.woff2') format('woff2'),
-           url('ApexSansBook.woff') format('woff'),
-           url('ApexSansBook.ttf') format('truetype'),
-           url('ApexSansBook.svg#ApexSansBook') format('svg');
-      font-style  : normal;
-      font-weight : 300;
-    }
-
-*/
-/*    @font-face {
-      font-family: 'ApexSansBold';
-      src: url('ApexSansBold.eot');
-      src: url('ApexSansBold.eot') format('embedded-opentype'),
-           url('ApexSansBold.woff2') format('woff2'),
-           url('ApexSansBold.woff') format('woff'),
-           url('ApexSansBold.ttf') format('truetype'),
-           url('ApexSansBold.svg#ApexSansBold') format('svg');
-      font-style  : normal;
-      font-weight : 700;
-    }
-*/
-    body {
+   body {
       margin   : 0;
       padding  : 0;
     }
@@ -269,8 +229,8 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      perspective: 1000px;
-      -webkit-perspective: 1000px;
+      perspective: 800px;
+      -webkit-perspective: 800px;
       -webkit-transition: opacity .5s ease-out;
       transition: opacity .5s ease-out;
     }
@@ -281,11 +241,10 @@
     }
 
     .ebokListItem {
-      /*display: inline-block;*/
       text-align: center;
       position: absolute;
       z-index: 200;
-      /* Move to center of x,z circle */
+
       -webkit-transform : translateX(0px) translateY(44px) translateZ(-400px);
          -moz-transform : translateX(0px) translateY(44px) translateZ(-400px);
            -o-transform : translateX(0px) translateY(44px) translateZ(-400px);
@@ -293,34 +252,29 @@
     }
 
     .zIndex {
-      color: #000;
-      font-weight: 700;
-    }
-
-
-    #ebokNavButtons {
-
+      color       : #000;
+      font-weight : 700;
     }
 
     .ebokNavButton {
-      overflow: hidden;
-      width: 40px;
-      height: 40px;
-      z-index: 100000;
+      overflow  : hidden;
+      opacity   : 0.9;
+      width     : 40px;
+      height    : 40px;
+      z-index   : 100000;
     }
 
     #ebokNext {
-      position: absolute;
-      left: 450px;
-      top: 130px;
+      position  : absolute;
+      left      : 450px;
+      top       : 130px;
     }
 
     #ebokPrev {
-      position: absolute;
-      left: 0px;
-      top: 130px;
+      position  : absolute;
+      left      : 0px;
+      top       : 130px;
     }
-
 
     .ebokFlip {
       transform: rotateY(180deg);
@@ -335,120 +289,40 @@
 
 <script type="text/javascript">
 
+  var
+    // shim for when AdForm's DHTML Api is not loaded: return default value, or value name, or error message
+    dhtml = dhtml || { getVar : function (c, d) { return d || c || "error: no params" } };
+
 
 function preventDef(e) {
-  console.log("preventDefault() - e : " + e, e);
-  console.log("target : " + e.target);
   e.preventDefault();
 
 }
 
-function ebokAdClick(el) {
-  console.log(el, el);
-  window.open('https://ebok.no', 'new_window');
-}
+function ebokAdClick(el) {  
 
+  window.open(dhtml.getVar("clickTAG", "https://ebok.no/"), "new_window");
+}
 </script>
 
  <div id="ebokMain" class="container" style="width:980px;height:300px;" onclick="ebokAdClick(this);">
   <div id="touchTarget">
-      <div id="ebokPrev" class="ebokNavButton">
-        <img src="prevnext.png" width="40" height="40">
+      <div class="ebokNavButtonBg">
+        <div id="ebokPrev" class="ebokNavButton">
+          <img src="prevnext.png" width="40" height="40">
+        </div>
       </div>
-      <div id="ebokNext" class="ebokNavButton">
-        <img class="ebokFlip" src="prevnext.png" width="40" height="40">
+      <div class="ebokNavButtonBg">
+        <div id="ebokNext" class="ebokNavButton">
+          <img class="ebokFlip" src="prevnext.png" width="40" height="40">
+        </div>
       </div>
   </div>
   <div id="ebokBilde"><img src="bilde_small.jpg" style="width:191px; height: 300px"></div>
   
   <div id="ebokContent">
     <div id="ebokListen">
-      <svg
-         xmlns:dc="http://purl.org/dc/elements/1.1/"
-         xmlns:cc="http://creativecommons.org/ns#"
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:svg="http://www.w3.org/2000/svg"
-         xmlns="http://www.w3.org/2000/svg"
-         xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-         xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-         width="208.20703"
-         height="57.805256"
-         id="svg2"
-         version="1.1"
-         inkscape:version="0.48.5 r10040"
-         sodipodi:docname="listen.svg">
-        <defs
-           id="defs4" />
-        <sodipodi:namedview
-           id="base"
-           pagecolor="#ffffff"
-           bordercolor="#666666"
-           borderopacity="1.0"
-           inkscape:pageopacity="0.0"
-           inkscape:pageshadow="2"
-           inkscape:zoom="0.35"
-           inkscape:cx="-210.34852"
-           inkscape:cy="-390.53259"
-           inkscape:document-units="px"
-           inkscape:current-layer="layer1"
-           showgrid="false"
-           fit-margin-top="0"
-           fit-margin-left="0"
-           fit-margin-right="0"
-           fit-margin-bottom="0"
-           inkscape:window-width="1920"
-           inkscape:window-height="1005"
-           inkscape:window-x="-9"
-           inkscape:window-y="-9"
-           inkscape:window-maximized="1" />
-        <metadata
-           id="metadata7">
-          <rdf:RDF>
-            <cc:Work
-               rdf:about="">
-              <dc:format>image/svg+xml</dc:format>
-              <dc:type
-                 rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-              <dc:title></dc:title>
-            </cc:Work>
-          </rdf:RDF>
-        </metadata>
-        <g
-           inkscape:label="Layer 1"
-           inkscape:groupmode="layer"
-           id="layer1"
-           transform="translate(-66.777093,-84.024341)">
-          <g
-             style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Apex Sans Bold;-inkscape-font-specification:Apex Sans Bold"
-             id="text2985">
-            <path
-               d="m 96.792706,140.93361 0,-41.99946 -7.7279,0 0,16.57579 -14.559813,0 0,-16.57579 -7.7279,0 0,41.99946 7.7279,0 0,-17.97577 14.559813,0 0,17.97577 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3758" />
-            <path
-               d="m 137.15642,98.93415 -9.29588,0 -0.27999,0.447994 c -1.00568,-0.423454 -2.13033,-0.752449 -3.37396,-0.986989 -1.24367,-0.234454 -2.62032,-0.353452 -4.12995,-0.356994 -4.71432,0.0671 -8.24642,1.146299 -10.5963,3.237589 -2.34991,2.09137 -3.90337,4.79247 -4.66039,8.1033 -0.75703,3.3109 -1.1034,6.82917 -1.0391,10.55483 -0.028,2.82798 0.154,5.55794 0.546,8.18989 0.39199,2.63198 1.16198,4.99795 2.30997,7.09791 l -3.30396,5.71193 9.29588,0 0.168,-0.336 c 0.97881,0.39433 2.07312,0.69766 3.28296,0.90999 1.2098,0.21233 2.54211,0.31966 3.99694,0.322 4.73192,-0.0671 8.27231,-1.14626 10.6212,-3.23759 2.34883,-2.09133 3.89814,-4.79243 4.64794,-8.1033 0.74973,-3.31086 1.09195,-6.82913 1.02665,-10.55483 0.0256,-2.74627 -0.1517,-5.41557 -0.53199,-8.0079 -0.38036,-2.59227 -1.11769,-4.92557 -2.21197,-6.99991 z m -25.42367,20.99973 c -0.10734,-3.95843 0.37332,-7.32538 1.44198,-10.10087 1.06864,-2.77543 3.36928,-4.22441 6.90191,-4.34694 0.69997,0.002 1.34397,0.0677 1.93198,0.19599 0.58797,0.12837 1.11996,0.3057 1.59598,0.532 l -11.53585,19.76774 c -0.13651,-0.92747 -0.22751,-1.90046 -0.273,-2.91896 -0.0455,-1.01847 -0.0665,-2.06146 -0.063,-3.12896 z m 16.68779,0 c 0.1073,3.95846 -0.37336,7.32542 -1.44198,10.10087 -1.06868,2.77547 -3.36932,4.22445 -6.90192,4.34694 -0.64167,0.001 -1.23433,-0.0432 -1.77797,-0.133 -0.54368,-0.0898 -1.05234,-0.23215 -1.52598,-0.42699 l 11.36785,-19.43175 c 0.10964,0.87151 0.1843,1.7745 0.224,2.70897 0.0396,0.93451 0.0583,1.87949 0.056,2.83496 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3760" />
-            <path
-               d="m 151.06749,124.35782 6.66392,0 8.11989,16.57579 9.35188,0 -9.51987,-18.08777 c 2.2901,-1.04297 3.89775,-2.51295 4.82293,-4.40994 0.92513,-1.89695 1.37079,-4.17892 1.33699,-6.84591 0.0863,-3.93275 -0.95436,-7.01504 -3.12196,-9.24688 -2.16767,-2.23177 -5.98028,-3.368086 -11.43786,-3.40896 l -13.94382,0 0,41.99946 7.7279,0 z m 0,-17.97577 6.94391,0 c 2.39162,0.035 3.95026,0.53903 4.67594,1.51198 0.72564,0.97302 1.0523,2.20501 0.97999,3.69596 0.0723,1.52017 -0.25435,2.77782 -0.97999,3.77295 -0.72568,0.99518 -2.28432,1.51084 -4.67594,1.54698 l -6.94391,0 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3762" />
-            <path
-               d="m 221.60008,140.93361 0,-41.99946 -7.55991,0 0.112,26.31966 -16.96778,-26.31966 -6.04792,0 0,41.99946 7.5599,0 -0.112,-26.31966 16.96778,26.31966 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3764" />
-            <path
-               d="m 235.29764,140.93361 3.35996,-10.63986 11.59185,0 3.52795,10.63986 8.3439,0 -14.89581,-42.895449 -5.37593,0 -14.95181,42.895449 z m 15.06381,-51.071343 c -0.0257,-2.006588 -0.56235,-3.481234 -1.60998,-4.423944 -1.04768,-0.942598 -2.45232,-1.409258 -4.21395,-1.399981 -1.78849,-0.0093 -3.20947,0.457384 -4.26294,1.399981 -1.0535,0.942709 -1.59249,2.417355 -1.61698,4.423944 0.0245,1.979857 0.56348,3.43817 1.61698,4.374943 1.05347,0.936866 2.47445,1.401193 4.26294,1.392982 1.76163,0.0082 3.16627,-0.456115 4.21395,-1.392981 1.04763,-0.936774 1.58429,-2.395087 1.60998,-4.374944 z m -2.40797,33.095573 -6.94391,0 3.52795,-10.97586 z M 246.5535,89.862267 c -0.004,0.718707 -0.17852,1.227366 -0.525,1.525979 -0.34651,0.298712 -0.8435,0.443377 -1.49098,0.433995 -0.67201,0.0094 -1.176,-0.135281 -1.51198,-0.433994 -0.33601,-0.298614 -0.50401,-0.807273 -0.50399,-1.52598 -2e-5,-0.772272 0.16798,-1.313597 0.50399,-1.62398 0.33598,-0.310276 0.83997,-0.459608 1.51198,-0.447994 0.64748,-0.01161 1.14447,0.137719 1.49098,0.447994 0.34648,0.310381 0.52147,0.851707 0.525,1.62398 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3766" />
-            <path
-               d="m 272.91215,129.17376 2.01597,-30.23961 -9.07188,0 2.01597,30.23961 z m -7.05591,7.9519 c 0.0315,1.29148 0.47249,2.36247 1.32298,3.21296 0.85049,0.85048 1.92147,1.29148 3.21296,1.32298 1.29381,-0.0315 2.37413,-0.47249 3.24096,-1.32298 0.86681,-0.85049 1.31714,-1.92148 1.35098,-3.21296 -0.0338,-1.29381 -0.48417,-2.37413 -1.35098,-3.24096 -0.86683,-0.86681 -1.94715,-1.31714 -3.24096,-1.35098 -1.29149,0.0338 -2.36247,0.48417 -3.21296,1.35098 -0.85049,0.86683 -1.29149,1.94715 -1.32298,3.24096 z"
-               style="fill:#ffffff;fill-opacity:1"
-               id="path3768" />
-          </g>
-        </g>
-      </svg>
-
+      <svg><g id="layer1"transform="translate(-66.777093,-84.024341)"><g style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Apex Sans Bold;-inkscape-font-specification:Apex Sans Bold"id="text2985"><path d="m 96.792706,140.93361 0,-41.99946 -7.7279,0 0,16.57579 -14.559813,0 0,-16.57579 -7.7279,0 0,41.99946 7.7279,0 0,-17.97577 14.559813,0 0,17.97577 z"style="fill:#ffffff;fill-opacity:1"id="path3758" /><path d="m 137.15642,98.93415 -9.29588,0 -0.27999,0.447994 c -1.00568,-0.423454 -2.13033,-0.752449 -3.37396,-0.986989 -1.24367,-0.234454 -2.62032,-0.353452 -4.12995,-0.356994 -4.71432,0.0671 -8.24642,1.146299 -10.5963,3.237589 -2.34991,2.09137 -3.90337,4.79247 -4.66039,8.1033 -0.75703,3.3109 -1.1034,6.82917 -1.0391,10.55483 -0.028,2.82798 0.154,5.55794 0.546,8.18989 0.39199,2.63198 1.16198,4.99795 2.30997,7.09791 l -3.30396,5.71193 9.29588,0 0.168,-0.336 c 0.97881,0.39433 2.07312,0.69766 3.28296,0.90999 1.2098,0.21233 2.54211,0.31966 3.99694,0.322 4.73192,-0.0671 8.27231,-1.14626 10.6212,-3.23759 2.34883,-2.09133 3.89814,-4.79243 4.64794,-8.1033 0.74973,-3.31086 1.09195,-6.82913 1.02665,-10.55483 0.0256,-2.74627 -0.1517,-5.41557 -0.53199,-8.0079 -0.38036,-2.59227 -1.11769,-4.92557 -2.21197,-6.99991 z m -25.42367,20.99973 c -0.10734,-3.95843 0.37332,-7.32538 1.44198,-10.10087 1.06864,-2.77543 3.36928,-4.22441 6.90191,-4.34694 0.69997,0.002 1.34397,0.0677 1.93198,0.19599 0.58797,0.12837 1.11996,0.3057 1.59598,0.532 l -11.53585,19.76774 c -0.13651,-0.92747 -0.22751,-1.90046 -0.273,-2.91896 -0.0455,-1.01847 -0.0665,-2.06146 -0.063,-3.12896 z m 16.68779,0 c 0.1073,3.95846 -0.37336,7.32542 -1.44198,10.10087 -1.06868,2.77547 -3.36932,4.22445 -6.90192,4.34694 -0.64167,0.001 -1.23433,-0.0432 -1.77797,-0.133 -0.54368,-0.0898 -1.05234,-0.23215 -1.52598,-0.42699 l 11.36785,-19.43175 c 0.10964,0.87151 0.1843,1.7745 0.224,2.70897 0.0396,0.93451 0.0583,1.87949 0.056,2.83496 z"style="fill:#ffffff;fill-opacity:1"id="path3760" /><path d="m 151.06749,124.35782 6.66392,0 8.11989,16.57579 9.35188,0 -9.51987,-18.08777 c 2.2901,-1.04297 3.89775,-2.51295 4.82293,-4.40994 0.92513,-1.89695 1.37079,-4.17892 1.33699,-6.84591 0.0863,-3.93275 -0.95436,-7.01504 -3.12196,-9.24688 -2.16767,-2.23177 -5.98028,-3.368086 -11.43786,-3.40896 l -13.94382,0 0,41.99946 7.7279,0 z m 0,-17.97577 6.94391,0 c 2.39162,0.035 3.95026,0.53903 4.67594,1.51198 0.72564,0.97302 1.0523,2.20501 0.97999,3.69596 0.0723,1.52017 -0.25435,2.77782 -0.97999,3.77295 -0.72568,0.99518 -2.28432,1.51084 -4.67594,1.54698 l -6.94391,0 z"style="fill:#ffffff;fill-opacity:1"id="path3762" /><path d="m 221.60008,140.93361 0,-41.99946 -7.55991,0 0.112,26.31966 -16.96778,-26.31966 -6.04792,0 0,41.99946 7.5599,0 -0.112,-26.31966 16.96778,26.31966 z"style="fill:#ffffff;fill-opacity:1"id="path3764" /><path d="m 235.29764,140.93361 3.35996,-10.63986 11.59185,0 3.52795,10.63986 8.3439,0 -14.89581,-42.895449 -5.37593,0 -14.95181,42.895449 z m 15.06381,-51.071343 c -0.0257,-2.006588 -0.56235,-3.481234 -1.60998,-4.423944 -1.04768,-0.942598 -2.45232,-1.409258 -4.21395,-1.399981 -1.78849,-0.0093 -3.20947,0.457384 -4.26294,1.399981 -1.0535,0.942709 -1.59249,2.417355 -1.61698,4.423944 0.0245,1.979857 0.56348,3.43817 1.61698,4.374943 1.05347,0.936866 2.47445,1.401193 4.26294,1.392982 1.76163,0.0082 3.16627,-0.456115 4.21395,-1.392981 1.04763,-0.936774 1.58429,-2.395087 1.60998,-4.374944 z m -2.40797,33.095573 -6.94391,0 3.52795,-10.97586 z M 246.5535,89.862267 c -0.004,0.718707 -0.17852,1.227366 -0.525,1.525979 -0.34651,0.298712 -0.8435,0.443377 -1.49098,0.433995 -0.67201,0.0094 -1.176,-0.135281 -1.51198,-0.433994 -0.33601,-0.298614 -0.50401,-0.807273 -0.50399,-1.52598 -2e-5,-0.772272 0.16798,-1.313597 0.50399,-1.62398 0.33598,-0.310276 0.83997,-0.459608 1.51198,-0.447994 0.64748,-0.01161 1.14447,0.137719 1.49098,0.447994 0.34648,0.310381 0.52147,0.851707 0.525,1.62398 z"style="fill:#ffffff;fill-opacity:1"id="path3766" /><path d="m 272.91215,129.17376 2.01597,-30.23961 -9.07188,0 2.01597,30.23961 z m -7.05591,7.9519 c 0.0315,1.29148 0.47249,2.36247 1.32298,3.21296 0.85049,0.85048 1.92147,1.29148 3.21296,1.32298 1.29381,-0.0315 2.37413,-0.47249 3.24096,-1.32298 0.86681,-0.85049 1.31714,-1.92148 1.35098,-3.21296 -0.0338,-1.29381 -0.48417,-2.37413 -1.35098,-3.24096 -0.86683,-0.86681 -1.94715,-1.31714 -3.24096,-1.35098 -1.29149,0.0338 -2.36247,0.48417 -3.21296,1.35098 -0.85049,0.86683 -1.29149,1.94715 -1.32298,3.24096 z"style="fill:#ffffff;fill-opacity:1"id="path3768" /></g></g></svg>
     </div>
     <div id="ebokHow">
       <div>VELG SJANGER,</div>
@@ -462,962 +336,23 @@ function ebokAdClick(el) {
         <option value ="skjnnlitteratur">SKJØNNLITTERATUR</option>
       </select>
       <div id="ebokFooter">EBOK.NO-appen er tilgjengelig for iPhone, iPad og Android</div>
-      <!-- <div id="ebokFooter"><img src="footer.svgz" width="282" height="11"></div> -->
     </div>
 
 
   </div>
-  <div id="ebokLogo"><img src="logo_circle_small.png" width="66" height="134"></div>
+  <div id="ebokLogo"><a id="clickTAG" href="http://ebok.no" class="clicktagged"><img src="logo_circle_small.png" width="66" height="134"></a></div>
   <div id="ebokLogoRightBottom"><img src="logo_w_small.png" width="190" height="46"></div>
   <div id="ebokCarousel" class="ebokCarousel">
-
     <ul id ="ebokList">
-      <li></li>
     </ul>
-
-    <div id="ebokDebug" style="display:none"></div>
     <audio id="ebokAudio" autoplay="true"></audio>
   </div>
 </div>
-<!-- </iframe> -->
 
 
-
-
-<script> 
-
-  var 
-    ApK = ApK || {};
-
-    ApK.onAdClick = function(e) {
-      console.log("preventDef()");
-      e.preventDefault();
-    }
-
-
-  ApK.audio = ApK.audio || {
-
-
-    // "private"
-    __useCapture  : false,
-    __audio       : null,
-    __element     : null,
-    __nowplaying  : null,
-    __playlist    : [],
-
-
-    // "protected"
-    _loaded : false,
-
-
-    // "public"
-    onLoadStart : function (e) {
-      console.log("onLoadStart");
-    },
-
-    onLoadedMetadata : function (e) {
-      console.log("onLoadedMetadata");
-    },
-
-    onDurationChange : function (e) {
-      console.log("onDurationChange");
-    },
-
-    onTimeUpdate : function (e) {
-      console.log("onTimeUpdate");
-    },
-
-    onError : function (e, f, l) {
-      alert("e : " + e + ", f : " + f + ", l : " + l);
-    },
-
-    onProgress : function () {
-      console.log("onProgress")
-    },
-
-    onSeeked : function () {
-      console.log("onSeeked")
-    },
-
-    onCanPlay : function () {
-      console.log("onCanPlay")
-    },
-
-    onPlay : function () {
-      console.log("onPlay")
-    },
-
-    onPlaying : function () {
-      console.log("onPlaying")
-    },
-
-    onPause : function () {
-      console.log("onPause")
-    },
-
-    onEnded : function () {
-      console.log("onEnded")
-    },
-
-
-    addListeners : function () {
-      var
-        self = ApK.audio;
-
-      if (!!self.__audio || typeof self.__audio.addEventListener != "function") {
-        return false;
-      }
-      self.__audio.addEventListener("timeupdate", self.onTimeUpdate, true);
-      self.__audio.addEventListener("loadedmetadata", self.onLoadedMetadata, true);
-      self.__audio.addEventListener("loadeddata", self.onLoadedData, true);
-      self.__audio.addEventListener("loadstart", self.onLoadStart, true);
-      self.__audio.addEventListener("durationchange", self.onDurationChange, true);
-      self.__audio.addEventListener("volumechange", self.onvolumeChange, true);
-
-      self.__audio.addEventListener("progress", self.onProgress, true);
-      self.__audio.addEventListener("seeked", self.onSeeked, true);
-      self.__audio.addEventListener("canplay", self.onCanPlay, true);
-      self.__audio.addEventListener("play", self.onPlay, true);
-      self.__audio.addEventListener("playing", self.onPlaying, true);
-      self.__audio.addEventListener("pause", self.onPause, true);
-      self.__audio.addEventListener("ended", self.onEnded, true);
-      self.__audio.addEventListener("error", self.onError, true);
-
-
-
-  // HTML5 Media Events:
-
-  //  loadeddata
-  //  progress
-  //  timeupdate
-  //  seeked
-  //  canplay
-  //  play
-  //  playing
-  //  pause
-  //  loadedmetadata
-  //  ended
-  //  volumechange
-
-
-    },
-
-
-
-    attach : function (element) {
-      var
-        element = element || document.getElementById("ebokAudio"),
-        self = ApK.audio;
-      if (element === null) {
-        self.__audio = new Audio();
-      }
-      else if (typeof element == "string") {
-        self.__audio = document.getElementById(element);
-      }
-      else {
-        self.__audio = element;
-      }
-
-      if (self.__audio) {
-        self.addListeners();
-      }
-      return !!self.__audio;
-    },
-
-    open : function (url) {
-      var
-        self  = ApK.audio,
-        url   = url || null,
-        datasrc = url || "";
-
-      if (!self.__audio) {
-        // console.log("Attaching to DOM");
-        self.attach();
-        self.__audio.setAttribute("src", url);
-        self.play();
-      }
-      else {
-        // console.log("Opening with existing audio Object : " + url);
-        self.__audio.src = url;
-        self.play();
-      }
-
-      // btnPlay.disabled = false;
-      // btnPause.disabled = true;
-      // btnRewind.disabled = true;
-    },
-
-
-    play : function (url) {
-      var 
-        self = ApK.audio,
-        url = url || null;
-
-    
-      if (url) {
-        console.log("Opening url: " + url);
-        return self.open(url);
-      }
-
-    },
-
-    pause : function () {
-      var 
-        audio = document.getElementById("ebokAudio");
-      audio.pause();
-    },
-
-    rewind : function () {
-      var 
-        audio = document.getElementById("ebokAudio");
-      audio.pause();
-      audio.currentTime = 0;
-    }
-
-  }
-
+<script type="text/javascript"> // minified ebok.js
+document.addEventListener("DOMContentLoaded",function(){function v(a){for(var b=document.createElement("div"),c="",g=0;g<a.length;++g){if("undefined"!=typeof b.style[a[g]])return a[g];c=null}return c}function x(a){a&&a.preventDefault&&a.preventDefault();if(!d||!d.length||!q)return!1;h++;m(h)}function E(a){a.preventDefault();h--;0>h&&(h+=d.length);m(h)}function m(a){var b=0,b=0;return"number"==typeof a?(b=a,0>b&&(b+=d.length),b=270+b*q,360<b&&Math.abs(b-n>2*q)&&(b-=360),n=b,p=!0,y(),!0):!1}function F(a){a= d[a]||null;var b=null,c=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)||!1;c=a.getElementsByClassName("ebokPlayButton").item(0)||!1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.display="block";b.style.visibility="visible";b.style.opacity=1;c.style.opacity=1}function G(a){a=d[a]||null;var b=null,c=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)||!1;c=a.getElementsByClassName("ebokPlayButton").item(0)|| !1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.opacity=0;b.style.visibility="hidden";c.style.opacity=.005}function y(){var a,b=0;if(p)if(requestAnimationFrame(y),a=k,a==n)p=!1;else{a=(n-k)/20;.01>Math.abs(a)?(k=n,p=!1):k+=a;if(!d||!d.length)return p=!1,console.error("not items or items.length"),!1;q=360/d.length;d.forEach(function(a,g,z){var l;l=k+g/d.length*360;z=180+200*Math.cos(l*Math.PI/180);l=-100+360*Math.sin(l*Math.PI/180);var e=Math.ceil(l+ 1440);a.style.zIndex=e;null===r?r=e:e<r&&(r=e);e>b?(b=e,A<b&&(A=b),topMost=g,a.style.opacity=1):a.style.opacity=.8;a.style[H]="translateY(0px) translateZ("+l+"px)translateX("+z+"px)"});topMost!=t&&(null!==t&&G(t),t=topMost,F(topMost))}}function I(){dhtml.getVar("landingPageTarget","_blank");var a=document.getElementsByClassName("clicktagged")||null;if(a&&a.length)for(var b=0;b<a.length;b++){var c=a[b].id;c&&(c=dhtml.getVar(c,a[b].href),a[b].href=c)}}function J(a){a=a||document.getElementById("ebokList"); var b=0;if(!a)return console.error("No element in removeChildren()"),!1;for(;a.firstChild;)a.removeChild(a.firstChild),b++;return b}function B(a){var b=0,c=document.createDocumentFragment(),g=document.getElementById("ebokList");if(d.length)for(;0<d.length;)d.pop();a.forEach(function(a,g,e){e=document.createElement("li");a={simple_authors:a[0],name:a[1],image_url:a[2],sample_url:a[3],absolute_url:a[4],price:a[5],slug:a[6],id:a[6],clickTagSample:a[7],clickTagBuy:a[8],i:g};e&&10>b&&(e.style.class="ebokListItem", e.innerHTML=K.render(C,a),c.appendChild(e),b++,d.push(e))});J(g);g.appendChild(c);I();window.ebokFirstRun?(m(5),setTimeout(x,100)):(window.ebokFirstRun=!0,m(5))}var C=null,u=null;(new Date).getTime();var f=null,D=null,k=269,n=270,h=0,t=null,q=0,r=null,A=0,p=!1,L=document.getElementById("ebokPrev"),M=document.getElementById("ebokNext"),N=document.getElementById("ebokCombo"),f=document.getElementById("ebokCarousel");document.getElementById("ebokList");document.getElementById("ebokMover");var d=[],w= new XMLHttpRequest;"undefined"!==typeof dhtml&&dhtml&&"function"==typeof dhtml.getVar||console.error("AdForm DHTML Api not loaded! Shimming ... ");document.getElementById("ebokContent").addEventListener("click",preventDef,!0);document.getElementById("ebokMain").onclick=null;document.getElementById("ebokMain").addEventListener("click",function(a){a.target instanceof HTMLDivElement&&"touchTarget"!=a.target.id?window.open(dhtml.getVar("clickTAG","https://ebok.no/"),"new_window"):a.target instanceof HTMLImageElement&& a.target.alt.indexOf("/")},!0);C='<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a id="{clickTagSample}" class="clicktagged" href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a id="{clickTagBuy}" class="clicktagged" href="http://ebok.no{absolute_url}">{price},- Kj\u00f8p n\u00e5!</a></div></div>'; f=f.getBoundingClientRect();f.width=f.right-f.left;f.middle=f.left+f.width/2;(function(){for(var a=0,b=["webkit","moz"],c=0;c<b.length&&!window.requestAnimationFrame;++c)window.requestAnimationFrame=window[b[c]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[b[c]+"CancelAnimationFrame"]||window[b[c]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(b,c){var d=(new Date).getTime(),e=Math.max(0,16-(d-a)),f=window.setTimeout(function(){b(d+ e)},e);a=d+e;return f});window.cancelAnimationFrame||(window.cancelAnimationFrame=function(a){clearTimeout(a)})})();var H=v(["transform","msTransform","MozTransform","WebkitTransform","OTransform"]);v(["transition","msTransition","MozTransition","WebkitTransition","OTransition"]);v(["animation","msAnimation","MozAnimation","WebkitAnimation","OAnimation"]);window.moveToItem=m;w.onload=function(){try{(u=JSON.parse(this.responseText))?(L.addEventListener("click",E,!0),M.addEventListener("click",x,!0), B(u.barnebker)):console.error("data : ",u)}catch(a){console.error("caught exception "+a.name+" : "+a.message+" in xhr.onload()")}};w.open("get","data.json",!0);w.send();N.addEventListener("change",function(a){(D=u[this.options[this.selectedIndex].value])&&B(D)},!0);var K={render:function(a,b){a=a||null;var c={};b=b||{};if(!b||"object"!=typeof b)return console.error("NOT OBJECT, OR EMPTY OBJECT"),a+"<div>data==[] or !isArray(data)</div>";if(null===a)return console.error("NO TEMPLATE"),JSON.stringify({error:"no template"}); for(var d in c)"undefined"===typeof b[d]&&(b[d]=c[d]);for(var f in b)a=a.replace(new RegExp("{("+f+"[^}]?)}"),b[f]),a=a.replace(new RegExp("{("+f+"[^}]+)}"),b[f]);return a}}}); 
 </script>
-
-<script type="text/javascript">
-
-  // data.json
-  // format : simple array
-  // 0 : author
-  // 1 : title
-  // 2 : img
-  // 3 : sample
-  // 4 : url
-  // 5 : price
-
-        // $chunk = array(
-        //   $data['name'],          $data['simple_authors'], 
-        //   $data['image_url'],     $data['sample_url'], 
-        //   $data['absolute_url'],  $data['price']);
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    var 
-      partial   = null,
-      data      = null,
-      date      = new Date(),
-      startTime = date.getTime(),
-      pos       = null,
-      category  = null,
-      perspective = 800,
-      radiusX   = 200,
-      radiusZ   = 360,
-      centerX   = 180,
-      centerZ   = -100,
-      centerY   = 0,
-      startX    = 0,
-      startY    = 0,
-      currentAngle = 269,
-      desiredAngle = 270,
-      previousItem  = null,
-      selectedItem = null,
-      _currentItem = 0,
-      upperMost = null,
-      angleStep = 0,
-      highestZ  = 0,
-      lowestZ   = null,
-      maxZ      = 0,
-      _active   = false,
-      prevBtn   = document.getElementById("ebokPrev"),
-      nextBtn   = document.getElementById("ebokNext"),
-      select    = document.getElementById("ebokCombo"),
-      carousel  = document.getElementById("ebokCarousel"),
-      debug     = document.getElementById("ebokDebug"),
-      books     = document.getElementById("ebokList"),
-      mover     = document.getElementById("ebokMover"),
-      items     = [],
-      xhr       = new XMLHttpRequest();
-
-
-    // document.getElementById("touchTarget").addEventListener("click", preventDef, true);
-    document.getElementById("ebokContent").addEventListener("click", preventDef, true);
-    document.getElementById("ebokMain").onclick = null;
-    document.getElementById("ebokMain").addEventListener("click", function(e) {
-      // console.log("target : " + e.target, e.target);
-      if (e.target instanceof HTMLDivElement && e.target.id != "touchTarget") {
-        window.open("https://ebok.no/", "new_window");
-      }
-      else {
-        if (e.target instanceof HTMLImageElement && e.target.alt.indexOf("/") === 0) {
-          // console.log("Opening : " + e.target.alt);
-          // ApK.audio.play("https://ebok.no" + e.target.alt);
-        }
-        else {
-          // console.log("NOT Opening : " + e.target.style.class)
-        }
-      }
-    }, true);
-
-
-    // partial = '<div class="ebokListItem"><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div style="position: absolute; text-align: center;font-size: 44px; color: black">{i}</div><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
-
-// The template for our book items
-
- partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0.5;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a  href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
-
-
-    // if (books) {
-    //   // partial = books.innerHTML;
-    // }
-
-
-
-    // console.log("starting");
-
-    // initialize
-    pos = carousel.getBoundingClientRect();
-    pos.width = pos.right - pos.left;
-    pos.middle = pos.left + (pos.width/2);
-
-    // requestAnimationFrame un-prefixer/polyfill from https://gist.github.com/paulirish/1579671
-    (function() {
-        var lastTime = 0;
-        var vendors = ['webkit', 'moz'];
-        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-            window.cancelAnimationFrame =
-              window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-        }
-
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function(callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-                  timeToCall);
-                lastTime = currTime + timeToCall;
-                return id;
-            };
-
-        if (!window.cancelAnimationFrame)
-            window.cancelAnimationFrame = function(id) {
-                clearTimeout(id);
-            };
-    }());
-
-
-    function GetVendorPrefix(arrayOfPrefixes) {
-
-       var tmp = document.createElement("div");
-       var result = "";
-
-       for (var i = 0; i < arrayOfPrefixes.length; ++i) {
-
-         if (typeof tmp.style[arrayOfPrefixes[i]] != 'undefined') {
-            return arrayOfPrefixes[i];
-         }
-         else {
-            result = null;
-         }
-       }
-       return result;
-    }
-
-
-
-    var transformPrefix = GetVendorPrefix(["transform", "msTransform", "MozTransform", "WebkitTransform", "OTransform"]);
-    var transitionPrefix = GetVendorPrefix(["transition", "msTransition", "MozTransition", "WebkitTransition", "OTransition"]);
-    var animationPrefix = GetVendorPrefix(["animation", "msAnimation", "MozAnimation", "WebkitAnimation", "OAnimation"]);
-    var gridPrefix = GetVendorPrefix(["gridRow", "msGridRow", "MozGridRow", "WebkitGridRow", "OGridRow"]);
-    var hyphensPrefix = GetVendorPrefix(["hyphens", "msHyphens", "MozHyphens", "WebkitHyphens", "OHyphens"]);
-    var columnPrefix = GetVendorPrefix(["columnCount", "msColumnCount", "MozColumnCount", "WebkitColumnCount", "OColumnCount"]);
-
-
-
-
-    function nextItem (e) {
-      var
-        fromItem = _currentItem;
-      // console.log("nextItem :preventDefault()");
-      if (e && e.preventDefault) 
-        e.preventDefault();
-  
-      if (!(items && items.length)) {
-        return false;
-      }
-      // should have been set in _init(), so that's not right
-      if (!angleStep) {
-        return false;
-      }
-      _currentItem++;
-      console.log("moving from " + fromItem + ", moving to " + (_currentItem));
-
-      moveToItem(_currentItem);
-    }
-
-    function prevItem (e) {
-      e.preventDefault();
-
-      _currentItem--;
-      if (_currentItem < 0) {
-        _currentItem += items.length;
-      }
-      // desiredAngle %= 360;
-      moveToItem(_currentItem);
-      // console.log("nextItem(), currentAngle : " + currentAngle + ", desiredAngle : " + desiredAngle);
-    }
-
-
-    function setTopmost(item) {
-      var
-        item = item || null;
-
-      if (topMost) {
-        setInactiveBook(topMost);
-      }
-      console.log("setTopmost("+ item +")");
-      setActiveBook(item);
-    }
-
-    /**
-     * Move this angle to the front of the screen
-     * @param   {angle}  angle  Angle, in degrees
-     * @return  {void}         
-     */
-    function moveToAngle(angle) {
-      // a quick type check
-      if (typeof angle == "number") {
-        if (angle < 0) {
-          console.log("adding 360degrees, because angle is " + angle);
-          angle += 360;
-        }
-        desiredAngle = angle ;
-        _active = true;
-        // start the animation
-        animate();
-        return true;
-      }
-      return false;
-    }
-
-
-    /**
-     * Move this item to the front of the screen
-     * @param   {integer}  item  The item to move to
-     * @return  {void}         
-     */
-    function moveToItem(item) {
-      var
-        myAngle = 0, myItem = 0;
-      // a quick type check
-      if (typeof item == "number") {
-        if (item >= items.length) {
-          console.log("Overflow ..");
-          // return false;
-          // item;
-        }
-        myItem = item;
-        if (myItem<0) {
-          myItem += items.length;
-        }
-        myAngle = (270+ (myItem * angleStep));
-
-
-        if (myAngle>360 && Math.abs((myAngle-desiredAngle) > (2*angleStep))) {
-          console.log("changing target angle to " + (myAngle-360) + ", from angle " + myAngle);
-          myAngle-=360;
-        }
-        if (desiredAngle == myAngle) {
-          // desiredAngle
-        }
-        if (myAngle < 0) {
-          console.log("myAngle < 0!");
-        }
-        console.log("moving from angle " + desiredAngle + ", to angle " + myAngle);
-
-        desiredAngle = myAngle;
-        _active = true;
-        // start the animation
-        animate();
-        return true;
-      }
-      return false;
-    }
-
-    window.moveToItem = moveToItem;
-
-    function _init () {
-      var 
-        angle, pos, x, z, angleDelta, 
-        zMax    = 0, 
-        topMost = 5;
-
-
-        console.log("_init()");
-        moveToItem(5);
-        return;
-
-      // yes, virginia - these are the local globals
-      angle = 0;
-      desiredAngle = desiredAngle || 0;
-      currentAngle = currentAngle || 270;
-      _currentItem = _currentItem || 0;
-
-
-
-      if (items && items.length) {
-        angleStep = 360/items.length;
-        items.forEach(function(p,i,a) {
-          var
-            offset  = 360*(i/items.length),
-
-            pos     = getPos(270+(angle + offset)),
-            zIndex  = 0;
-
-          // console.log("_init : " + i);
-
-          // stack them above 10,000ft
-          zIndex = Math.ceil((pos.z + 10000));
-          if (zMax < zIndex) {
-            topMost = i;
-            zMax = zIndex;
-          }
-          // place in a circle, and stack in z-space
-          p.style.zIndex = zIndex;
-          p.style[transformPrefix] = "translateY(" + centerY + "px) translateZ(" + pos.z + "px)" + "translateX(" + pos.x + "px)";
-        });
-
-        if (upperMost !== topMost) {
-          if (upperMost === null) {
-            upperMost = topMost;
-            setActiveBook(upperMost);
-            return;
-          }
-          else {
-            _currentItem = topMost;
-            setActiveBook(topMost);
-          }
-        }
-      }
-      else {
-        console.log("NO ITEMS in _init()!");
-      }
-    }
-
-
-
-    function setActiveBook(bookNo) {
-      var
-        book        = items[bookNo] || null,
-        bookButton  = null,
-        playButton  = null;
-
-
-      if (!book) {
-        console.log("No Book!");
-      }
-
-      bookButton = book.getElementsByClassName("ebokBuyButton").item(0) || false;
-      playButton = book.getElementsByClassName("ebokPlayButton").item(0) || false;
-
-      if(!book && !bookButton) {
-        console.log("setActiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
-        return false;
-      }
-
-      // then show the new front item
-      bookButton.style.display    = "block";
-      bookButton.style.visibility = "visible";
-      bookButton.style.opacity    = 1;
-
-      playButton.style.opacity = 1;
-      // playButton.style.visibility = "visible";
-
-      console.log("setting active book - bookNo : " + bookNo + ", book: " + book, book);
-    }
-
-
-    function setInactiveBook(bookNo) {
-      var
-        book = items[bookNo] || null,
-        bookButton  = null,
-        playButton  = null;
-
-      if (!book) {
-        console.log("No Book!");
-      }
-
-      bookButton = book.getElementsByClassName("ebokBuyButton").item(0) || false;
-      playButton = book.getElementsByClassName("ebokPlayButton").item(0) || false;
-
-      if(!book && !bookButton) {
-        console.log("setActiveBook() - missing book or element (" + book + ", " + bookButton + ")!");
-        return false;
-      }
-
-      // then hide the former front item
-      // bookButton.style.display    = "none";
-      bookButton.style.opacity    = 0;
-      bookButton.style.visibility = "hidden";
-
-      playButton.style.opacity = 0.005;
-      // playButton.style.visibility = "hidden";
-
-      console.log("setting active book - bookNo : " + bookNo + ", book: " + book, book);
-
-    }
-
-
-    function animate () {
-      var 
-        angle, pos, x, z, angleDelta, highestZ = 0;
-
-      if(_active) {
-        requestAnimationFrame(animate);
-      }
-      else {
-        return;
-      }
-
-      angle = currentAngle;
-
-      if (angle == desiredAngle) {
-        _active = false;
-        return;
-      }
-
-      angleDelta = (desiredAngle - currentAngle)/20;
-
-      // console.log("angleDelta : " + angleDelta);
-      if (Math.abs(angleDelta) < 0.01) {
-        currentAngle = desiredAngle;
-        _active = false;
-      }
-      else {
-        currentAngle += angleDelta;
-      }
-
-      if (!(items && items.length)) {
-        _active = false;
-        console.error("not items or items.length")
-        return false;
-      }
-
-        angleStep = 360/items.length;
-        items.forEach(function(p,i,a) {
-          var
-            offset = 360*(i/items.length),
-            pos = getPos((currentAngle + offset)),
-            zIndex = Math.ceil((pos.z + 1440));
-
-
-          p.style.zIndex = zIndex;
-          if (lowestZ === null) {
-            lowestZ = zIndex;
-          }
-          else if (zIndex < lowestZ) {
-            lowestZ = zIndex;
-          }
-          if (zIndex > highestZ) {
-            // console.log("highestZ : " + highestZ);
-            highestZ = zIndex;
-            if (maxZ<highestZ)
-              maxZ = highestZ;
-            topMost  = i;
-            p.style.opacity = 1;
-          }
-          else {
-            p.style.opacity = 0.8;
-            // set opacity to 
-            // p.style.opacity = 0.5;
-
-          }
-
-          // p.style.opacity = (pos.z + 1440) / 1440;
-          p.style[transformPrefix] = "translateY(" + centerY +"px) translateZ(" + pos.z + "px)" + "translateX(" + pos.x + "px)";
-
-        });
-      if (topMost != upperMost) {
-        if (upperMost === null) {
-          console.log("topMost goes from " + upperMost + " to " + topMost);
-          upperMost = topMost;
-          setActiveBook(topMost);
-          return;
-        }
-
-        console.log("topMost goes from " + upperMost + " to " + topMost);
-        setInactiveBook(upperMost);
-        upperMost = topMost;
-        setActiveBook(topMost);
-      }
-      else {
-        // console.log("topMost : " + topMost);
-      }
-    }
-
-    // start animation
-    // animate();
-
-    function getPos(angle) {
-      return {
-          x : centerX + radiusX * Math.cos(angle * Math.PI / 180),
-          z : centerZ + radiusZ * Math.sin(angle * Math.PI / 180)
-      }
-    }
-
-    function updatePosition() {
-      pos = carousel.getBoundingClientRect();
-      pos.width = pos.right - pos.left;
-      pos.middle = pos.left + (pos.width/2);
-    }
-
-
-    function showData() {
-      if (!data) {
-        return false;
-      }
-    }
-
-
-   function removeChildren(elem) {
-      var 
-        element   = elem || document.getElementById("ebokList"),
-        removed   = 0;
-
-      // clear element
-      if (!element) {
-        console.error("No element in removeChildren()");
-        return false;
-      }
-      while (element.firstChild) {
-        element.removeChild(element.firstChild);
-        removed++;
-      }
-
-      return removed;
-    }
-
-
-    function showCategory(arr) {
-      var
-        maxCount  = 10,
-        itemCount = 0,
-        fragment  = document.createDocumentFragment(),
-        // container is a <ul>
-        container = document.getElementById("ebokList");
- 
-     // console.log("arr.length : " + arr.length);
-      if (items.length) {
-        while (items.length>0) {
-          items.pop();
-        }
-      }
-      arr.forEach(function (p,i,a) {
-        var 
-          listItem = document.createElement("li"),
-          chunk    = {
-            // restore names of array-packed variables
-            'simple_authors'  : p[0],
-            'name'            : p[1],
-            'image_url'       : p[2],
-            'sample_url'      : p[3],
-            'absolute_url'    : p[4],
-            'price'           : p[5],
-            'i'               : i
-          };
-        if (listItem && itemCount < maxCount) {
-          listItem.style.class = "ebokListItem";
-          listItem.innerHTML = template.render(partial, chunk);
-          fragment.appendChild(listItem);
-          itemCount++;
-          items.push(listItem);
-        }
-      });
-
-      // console.log("Clearing existing list");
-      removeChildren(container);
-      // console.log("Appending children");
-      container.appendChild(fragment);
-      // set initial positions
-      if (!window.ebokFirstRun) {
-        window.ebokFirstRun = true;
-        moveToItem(5);
-      }
-      else {
-        // _active = true:
-        _init();
-        // moveToAngle(desiredAngle);
-        setTimeout(nextItem, 100);
-        // animate();
-      }
-    }
-
-
-  // data.json
-  // format : simple array
-  // 0 : author
-  // 1 : title
-  // 2 : img
-  // 3 : sample
-  // 4 : url
-  // 5 : price
-
-        // $chunk = array(
-        //   $data['name'],          $data['simple_authors'], 
-        //   $data['image_url'],     $data['sample_url'], 
-        //   $data['absolute_url'],  $data['price']);
-
-    function onCategoryChange(el) {
-      var
-        catName = this.options[this.selectedIndex].value;
-      category = data[catName];
-      if (!!category) {
-        showCategory(category);
-      }
-      // console.log(category, el);
-    }
-
-
-    function onMouseOver (e) {
-      updatePosition();
-      debug.innerHTML = "onMouseOver";
-    }
-
-    function onMouseMove (e) {
-
-      debug.innerHTML = (e.clientX-pos.middle);
-      // debug.innerHTML = (e.clientX-pos.left);
-    }
-
-    function onMouseOut (e) {
-
-      debug.innerHTML = "onMouseOut";
-    }
-
-
-
-    xhr.onload = function () {
-      // console.log("onload!");
-      try {
-        data = JSON.parse(this.responseText);
-        if (!!data) {
-          // console.log("attaching listeners");
-          select.addEventListener("change", onCategoryChange,   true);
-          // carousel.addEventListener("mousemove",  onMouseMove,  true);
-          // carousel.addEventListener("mouseover",  onMouseOver,  true);
-          // carousel.addEventListener("mouseout",   onMouseOut,   true);
-          prevBtn.addEventListener("click", prevItem, true);
-          nextBtn.addEventListener("click", nextItem, true);
-          showCategory(data['barnebker']);
-        }
-        else {
-          console.error("data : ", data);
-        }
-      }
-      catch (e) {
-        console.error("caught " + e.name + " : " + e.message + " in xhr.onload()");
-      }
-    };
-
-    xhr.open("get", "data.json", true);
-    xhr.send();
-
-
-    var template = {
-
-      render : function (template, data) {
-        var
-          template = template || null,
-          defaults = {
-          },
-          data = data || {};
-
-        // check inputs
-        if ( !data || typeof data != "object" ){
-          console.log("NOT OBJECT, OR EMPTY OBJECT");
-          return template + "<div>data==[] or !isArray(data)</div>";
-        } 
-        if (template === null) {
-          console.log("NO TEMPLATE");
-          return JSON.stringify({error : "no template"});
-        }
-
-        // add defaults to data
-        for (var i in defaults) {
-          if(typeof data[i] === "undefined") {
-            console.log("setting " + i + " to " + defaults[i]);
-            data[i] = defaults[i];
-          }
-        }
-
-        // render
-        for (var key in data) {
-          template = template.replace(new RegExp("\{(" + key + "[^}]?)\}"), data[key]);
-          template = template.replace(new RegExp("\{(" + key + "[^}]+)\}"), data[key]);
-        }
-
-        return template;
-      }
-    }; // var template = ...
-
-
-});
-
-
-  // function styleSupport( prop ) 
-  // {
-  //     var vendorProp;
-  //     var supportedProp = null;
-  //     // capitalize first character of the prop to test vendor prefix
-  //     var capProp   = prop.charAt(0).toUpperCase() + prop.slice(1);
-  //     var prefixes  = [ "Moz", "Webkit", "O", "ms" ];
-  //     var div     = document.createElement( "div" );
-
-  //     if ( prop in div.style ) 
-  //     {
-  //       //browser supports standard CSS property name
-  //       supportedProp = prop;
-  //     } 
-  //     else 
-  //     {
-  //       //otherwise test support for vendor-prefixed property names
-  //       for ( var i = 0; i < prefixes.length; i++ ) 
-  //       {
-  //         vendorProp = prefixes[i] + capProp;
-  //         if ( vendorProp in div.style )
-  //         {
-  //           supportedProp = vendorProp;
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     // avoid memory leak in IE
-  //     div = null;    
-  //     return supportedProp;
-  // }
-  
-  // function whichTransitionEvent()
-  // {
-  //     var el = document.createElement('div');
-  //     var transitions = {
-  //       'transition':'transitionend',
-  //       'OTransition':'oTransitionEnd',
-  //       'MSTransition':'msTransitionEnd',
-  //       'MozTransition':'transitionend',
-  //       'WebkitTransition':'webkitTransitionEnd'
-  //     };
-
-  //     for(var t in transitions){
-  //         if( el.style[t] !== undefined ){
-  //           el = null;
-  //             return transitions[t];
-  //         }
-  //     }
-  //     el = null;
-  //     return false;
-  // }
-  // /**********************************************************************************************/
-
-
-</script>
-
-  
-
-<!-- <script type="text/javascript" src="script.js"></script> -->
 
 </body>
 </html>
