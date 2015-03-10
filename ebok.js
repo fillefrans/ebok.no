@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
       _active   = false,
       prevBtn   = document.getElementById("ebokPrev"),
       nextBtn   = document.getElementById("ebokNext"),
-      select    = document.getElementById("ebokCombo"),
+      // select    = document.getElementById("ebokCombo"),
       carousel  = document.getElementById("ebokCarousel"),
       books     = document.getElementById("ebokList"),
       mover     = document.getElementById("ebokMover"),
@@ -42,9 +42,15 @@ document.addEventListener("DOMContentLoaded", function() {
       xhr       = new XMLHttpRequest();
 
 
-    if (typeof dhtml === "undefined" || (!dhtml) || typeof dhtml.getVar != "function") {
-      console.error("AdForm DHTML Api not loaded! Shimming ... ");
-    }
+    // if (typeof window.dhtml === "undefined" || (!dhtml) || typeof dhtml.getVar != "function") {
+
+    //   console.error("AdForm DHTML Api not loaded! Shimming ... ", dhtml);
+    //   var dhtml = {
+    //     getVar : function(p1, p2) {
+    //       return (p1 || p2 || "undefined");
+    //     }
+    //   }
+    // }
 
 
     // document.getElementById("touchTarget").addEventListener("click", preventDef, true);
@@ -63,80 +69,84 @@ document.addEventListener("DOMContentLoaded", function() {
     }, true);
 
 
-// The template for our book items
+    // The template for our book items
+    partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a id="{clickTagSample}" class="clicktagged" href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a id="{clickTagBuy}" class="clicktagged" href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
 
- partial = '<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0.5;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a id="{clickTagSample}" class="clicktagged" href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a id="{clickTagBuy}" class="clicktagged" href="http://ebok.no{absolute_url}">{price},- Kjøp nå!</a></div></div>';
-
-
+    // some initial values, so we don't have to check in every animation frame
     pos = carousel.getBoundingClientRect();
     pos.width = pos.right - pos.left;
     pos.middle = pos.left + (pos.width/2);
 
-    // requestAnimationFrame un-prefixer/polyfill from https://gist.github.com/paulirish/1579671
+    // requestAnimationFrame polyfill from https://gist.github.com/paulirish/1579671
     (function() {
-        var lastTime = 0;
-        var vendors = ['webkit', 'moz'];
-        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-            window.cancelAnimationFrame =
-              window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-        }
 
-        if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function(callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-                  timeToCall);
-                lastTime = currTime + timeToCall;
-                return id;
-            };
+      var 
+        lastTime  = 0,
+        vendors   = ['webkit', 'moz'];
 
-        if (!window.cancelAnimationFrame)
-            window.cancelAnimationFrame = function(id) {
-                clearTimeout(id);
-            };
+      for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame  = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame   = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+      }
+
+      if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+          var 
+            currTime    = new Date().getTime(),
+            timeToCall  = Math.max(0, 16 - (currTime - lastTime)),
+            id          = window.setTimeout(function() { callback(currTime + timeToCall) }, timeToCall),
+            lastTime    = currTime + timeToCall;
+
+          return id;
+        };
+
+      if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) { clearTimeout(id) };
+      }
     }());
 
 
     function GetVendorPrefix(arrayOfPrefixes) {
+      var 
+        tmp     = document.createElement("div"),
+        result  = "";
 
-       var tmp = document.createElement("div");
-       var result = "";
-
-       for (var i = 0; i < arrayOfPrefixes.length; ++i) {
-
-         if (typeof tmp.style[arrayOfPrefixes[i]] != 'undefined') {
-            return arrayOfPrefixes[i];
-         }
-         else {
-            result = null;
-         }
-       }
-       return result;
+      for (var i = 0; i < arrayOfPrefixes.length; ++i) {
+        if (typeof tmp.style[arrayOfPrefixes[i]] != 'undefined') {
+          return arrayOfPrefixes[i];
+        }
+        else {
+          result = null;
+        }
+      }
+      return result;
     }
 
 
 
-    var transformPrefix = GetVendorPrefix(["transform", "msTransform", "MozTransform", "WebkitTransform", "OTransform"]);
-    var transitionPrefix = GetVendorPrefix(["transition", "msTransition", "MozTransition", "WebkitTransition", "OTransition"]);
-    var animationPrefix = GetVendorPrefix(["animation", "msAnimation", "MozAnimation", "WebkitAnimation", "OAnimation"]);
+    var 
+      transformPrefix   = GetVendorPrefix(["transform", "msTransform", "MozTransform", "WebkitTransform", "OTransform"]),
+      transitionPrefix  = GetVendorPrefix(["transition", "msTransition", "MozTransition", "WebkitTransition", "OTransition"]),
+      animationPrefix   = GetVendorPrefix(["animation", "msAnimation", "MozAnimation", "WebkitAnimation", "OAnimation"]);
 
 
     function nextItem (e) {
       var
         fromItem = _currentItem;
 
-      if (e && e.preventDefault) 
+      if (e && typeof e.preventDefault == "function") {
         e.preventDefault();
+      }
   
       if (!(items && items.length)) {
         return false;
       }
-      // should have been set in _init(), so that's not right
+
+      // should be set in _init(), so that's not right
       if (!angleStep) {
         return false;
       }
+
       _currentItem++;
       moveToItem(_currentItem);
     }
@@ -168,13 +178,15 @@ document.addEventListener("DOMContentLoaded", function() {
      * @return  {void}         
      */
     function moveToAngle(angle) {
+ 
       // a quick type check
       if (typeof angle == "number") {
         if (angle < 0) {
-          // angle += 360;
+          angle += 360;
         }
         desiredAngle = angle ;
         _active = true;
+ 
         // start the animation
         animate();
         return true;
@@ -191,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function moveToItem(item) {
       var
         myAngle = 0, myItem = 0;
+ 
       // a quick type check
       if (typeof item == "number") {
         myItem = item;
@@ -205,6 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         desiredAngle = myAngle;
         _active = true;
+ 
         // start the animation
         animate();
         return true;
@@ -212,26 +226,24 @@ document.addEventListener("DOMContentLoaded", function() {
       return false;
     }
 
-    window.moveToItem = moveToItem;
-
+ 
     function _init () {
-        moveToItem(5);
+      moveToItem(5);
     }
 
 
-
     function setActiveBook(bookNo) {
+
       var
         book        = items[bookNo] || null,
         bookButton  = null,
         playButton  = null;
 
-
       if (!book) {
         console.error("No Book!");
       }
 
-      bookButton = book.getElementsByClassName("ebokBuyButton").item(0) || false;
+      bookButton = book.getElementsByClassName("ebokBuyButton").item(0)  || false;
       playButton = book.getElementsByClassName("ebokPlayButton").item(0) || false;
 
       if(!book && !bookButton) {
@@ -484,7 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
           prevBtn.addEventListener("click", prevItem, true);
           nextBtn.addEventListener("click", nextItem, true);
           // load initial category, hardcoded here for simplicity
-          showCategory(data['barnebker']);
+          showCategory(data['krim']);
         }
         else {
           console.error("data : ", data);
@@ -498,7 +510,7 @@ document.addEventListener("DOMContentLoaded", function() {
     xhr.open("get", "data.json", true);
     xhr.send();
 
-    select.addEventListener("change", onCategoryChange,   true);
+    // select.addEventListener("change", onCategoryChange,   true);
 
 
     /**

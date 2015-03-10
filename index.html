@@ -17,7 +17,7 @@
 
   <!-- AdForm DHTML Tracker -->
   <script src="http://track.adform.net/banners/scripts/rmb/Adform.DHTML.js"></script>
-
+  
   <style>
 
     /* AdForm does not recognize woff2 as a format, so we omit it below */
@@ -32,12 +32,10 @@
       font-weight : 400;
     }
 
-   body {
+    body {
       margin   : 0;
       padding  : 0;
     }
-
-
 
     .ebokCarousel {
       position            : absolute;
@@ -49,12 +47,10 @@
       text-align          : center;
       perspective         : 800px;
       -webkit-perspective : 800px;
-
     }
 
     .ebokCarousel li {
       list-style: none;
-      list-style-type: none;
     }
 
     #ebokLogo {
@@ -78,105 +74,104 @@
     }
 
     #ebokContent {
-      position: absolute;
-      left: 48px;
-      font-family: "ApexSansMedium", sans-serif;
-
+      position    : absolute;
+      left        : 48px;
+      font-family : "ApexSansMedium", sans-serif;
     }
 
     #ebokListen {
-      position: absolute;
-      top: 16px;
-      left: 154px;
-      z-index:10; 
+      position  : absolute;
+      top       : 16px;
+      left      : 154px;
+      z-index   : 10; 
     }
 
     #ebokHow {
-      position: absolute;
-      left : 190px;
-      top: 100px;
-      width: 400px;
-      font-family: "ApexSansMedium", sans-serif;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 28px;
+      position    : absolute;
+      left        : 190px;
+      top         : 132px;
+      width       : 400px;
+      font-family : "ApexSansMedium", sans-serif;
+      font-weight : 400;
+      font-size   : 18px;
+      line-height : 28px;
     }
 
     #ebokFooter {
-      position: relative;
-      margin-top: 50px;
-      font-family: "ApexSansMedium", sans-serif;
-      font-weight: 300;
-      font-size: 11px;
+      position    : relative;
+      margin-top  : 90px;
+      font-family : "ApexSansMedium", sans-serif;
+      font-weight : 300;
+      font-size   : 11px;
     }
 
     #ebokDebug {
-      position: relative;
-      bottom: 0;
-      font-family: "ApexSansMedium", sans-serif;
-      font-weight: 300;
-      font-size: 12px;
-      text-align: center;
+      position    : relative;
+      bottom      : 0;
+      font-family : "ApexSansMedium", sans-serif;
+      font-weight : 300;
+      font-size   : 12px;
+      text-align  : center;
     }
 
     .ebokBuyButton {
       background: url(knapp.svg) no-repeat top left;
 
       -webkit-background-size: 150px 24px;
-      -moz-background-size: 150px 24px;
-      -ms-background-size: 150px 24px;
-      -o-background-size: 150px 24px;
-      background-size: 150px 24px;
+         -moz-background-size: 150px 24px;
+          -ms-background-size: 150px 24px;
+           -o-background-size: 150px 24px;
+              background-size: 150px 24px;
 
-      margin-top: 4px;
-      font-family: "ApexSansMedium", sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      text-align: center;
-      width: 160px;
-      height: 28px;
-      padding-top: 2px;
-      display: none;
-      opacity: 1;
-      cursor: pointer;
+      margin-top  : 4px;
+      font-family : "ApexSansMedium", sans-serif;
+      font-weight : 400;
+      font-size   : 14px;
+      text-align  : center;
+      width       : 160px;
+      height      : 28px;
+      padding-top : 2px;
+      display     : none;
+      opacity     : 1;
+      cursor      : pointer;
+
       -webkit-transition: opacity .5s ease-out;
-      transition: opacity .5s ease-out;
+              transition: opacity .5s ease-out;
     }
 
     .ebokBuyButton.active {
-      display: block;
-      opacity: 1;
+      display   : block;
+      opacity   : 1;
     }
 
     .container {
-      width: 980px;
-      height: 300px;
+      width   : 980px;
+      height  : 300px;
     }
 
     .ebokBuyButton a {
-      color: #fff;
-      text-decoration: none;
+      color           : #fff;
+      text-decoration : none;
     }
 
     .ebokPlayButton {
       cursor: pointer;
+
       -webkit-transition: opacity .5s ease-out;
-      transition: opacity .5s ease-out;
+              transition: opacity .5s ease-out;
     }
 
-
     .ebokListItemImage {
-      width: 150px;
-      height: 150px;
-      padding: 0;
+      width   : 150px;
+      height  : 150px;
+      padding : 0;
     }
 
     .ebokCombo {
-      font-family: "ApexSansMedium";
-      font-size: 14px;
-      margin-top: 8px;
+      font-family : "ApexSansMedium";
+      font-size   : 14px;
+      margin-top  : 8px;
     }
-
 
     #ebokMain {
       margin  : 0px;
@@ -190,60 +185,57 @@
       height          : 300px;
       color           : #fff;
 
-
       /* Make text non-selectable */
       -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+        -webkit-user-select: none;
+         -khtml-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+
       /* Use normal cursor */
       cursor: default;
-
     }
-
 
     #ebokBilde {
-      position: absolute;
-      top: 0px;
-      left : 0px;
-      width: 100%;
-      height: 100%;
+      position  : absolute;
+      top       : 0px;
+      left      : 0px;
+      width     : 100%;
+      height    : 100%;
     }
-
 
     #touchTarget {
-      position: absolute;
-      z-index: 500;
-      top: 0px;
-      min-width: 500px;
-      min-height : 150px;
-      left: 480px;
+      position    : absolute;
+      z-index     : 500;
+      top         : 0px;
+      left        : 480px;
+      min-width   : 500px;
+      min-height  : 150px;
     }
 
-
     #ebokList {
-      position: absolute;
-      top: 0px;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      perspective: 800px;
+      position    : absolute;
+      top         : 0px;
+      width       : 100%;
+      height      : 100%;
+      text-align  : center;
+
       -webkit-perspective: 800px;
+              perspective: 800px;
       -webkit-transition: opacity .5s ease-out;
-      transition: opacity .5s ease-out;
+              transition: opacity .5s ease-out;
     }
 
     #ebokList li {
-      position: absolute;
-      text-align: center;
+      position    : absolute;
+      text-align  : center;
     }
 
     .ebokListItem {
-      text-align: center;
-      position: absolute;
-      z-index: 200;
+      text-align  : center;
+      position    : absolute;
+      z-index     : 200;
 
       -webkit-transform : translateX(0px) translateY(44px) translateZ(-400px);
          -moz-transform : translateX(0px) translateY(44px) translateZ(-400px);
@@ -281,10 +273,8 @@
     }
 
   </style>
-
-
 </head>
- 
+
 <body>
 
 <script type="text/javascript">
@@ -294,15 +284,15 @@
     dhtml = dhtml || { getVar : function (c, d) { return d || c || "error: no params" } };
 
 
-function preventDef(e) {
-  e.preventDefault();
+  function preventDef(e) {
+    e.preventDefault();
+  }
 
-}
+  function ebokAdClick(el) {  
+    // window name is hard set to "new_window", because Garðr
+    window.open(dhtml.getVar("clickTAG", "https://ebok.no/"), "new_window");
+  }
 
-function ebokAdClick(el) {  
-
-  window.open(dhtml.getVar("clickTAG", "https://ebok.no/"), "new_window");
-}
 </script>
 
  <div id="ebokMain" class="container" style="width:980px;height:300px;" onclick="ebokAdClick(this);">
@@ -325,19 +315,18 @@ function ebokAdClick(el) {
       <svg><g id="layer1"transform="translate(-66.777093,-84.024341)"><g style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Apex Sans Bold;-inkscape-font-specification:Apex Sans Bold"id="text2985"><path d="m 96.792706,140.93361 0,-41.99946 -7.7279,0 0,16.57579 -14.559813,0 0,-16.57579 -7.7279,0 0,41.99946 7.7279,0 0,-17.97577 14.559813,0 0,17.97577 z"style="fill:#ffffff;fill-opacity:1"id="path3758" /><path d="m 137.15642,98.93415 -9.29588,0 -0.27999,0.447994 c -1.00568,-0.423454 -2.13033,-0.752449 -3.37396,-0.986989 -1.24367,-0.234454 -2.62032,-0.353452 -4.12995,-0.356994 -4.71432,0.0671 -8.24642,1.146299 -10.5963,3.237589 -2.34991,2.09137 -3.90337,4.79247 -4.66039,8.1033 -0.75703,3.3109 -1.1034,6.82917 -1.0391,10.55483 -0.028,2.82798 0.154,5.55794 0.546,8.18989 0.39199,2.63198 1.16198,4.99795 2.30997,7.09791 l -3.30396,5.71193 9.29588,0 0.168,-0.336 c 0.97881,0.39433 2.07312,0.69766 3.28296,0.90999 1.2098,0.21233 2.54211,0.31966 3.99694,0.322 4.73192,-0.0671 8.27231,-1.14626 10.6212,-3.23759 2.34883,-2.09133 3.89814,-4.79243 4.64794,-8.1033 0.74973,-3.31086 1.09195,-6.82913 1.02665,-10.55483 0.0256,-2.74627 -0.1517,-5.41557 -0.53199,-8.0079 -0.38036,-2.59227 -1.11769,-4.92557 -2.21197,-6.99991 z m -25.42367,20.99973 c -0.10734,-3.95843 0.37332,-7.32538 1.44198,-10.10087 1.06864,-2.77543 3.36928,-4.22441 6.90191,-4.34694 0.69997,0.002 1.34397,0.0677 1.93198,0.19599 0.58797,0.12837 1.11996,0.3057 1.59598,0.532 l -11.53585,19.76774 c -0.13651,-0.92747 -0.22751,-1.90046 -0.273,-2.91896 -0.0455,-1.01847 -0.0665,-2.06146 -0.063,-3.12896 z m 16.68779,0 c 0.1073,3.95846 -0.37336,7.32542 -1.44198,10.10087 -1.06868,2.77547 -3.36932,4.22445 -6.90192,4.34694 -0.64167,0.001 -1.23433,-0.0432 -1.77797,-0.133 -0.54368,-0.0898 -1.05234,-0.23215 -1.52598,-0.42699 l 11.36785,-19.43175 c 0.10964,0.87151 0.1843,1.7745 0.224,2.70897 0.0396,0.93451 0.0583,1.87949 0.056,2.83496 z"style="fill:#ffffff;fill-opacity:1"id="path3760" /><path d="m 151.06749,124.35782 6.66392,0 8.11989,16.57579 9.35188,0 -9.51987,-18.08777 c 2.2901,-1.04297 3.89775,-2.51295 4.82293,-4.40994 0.92513,-1.89695 1.37079,-4.17892 1.33699,-6.84591 0.0863,-3.93275 -0.95436,-7.01504 -3.12196,-9.24688 -2.16767,-2.23177 -5.98028,-3.368086 -11.43786,-3.40896 l -13.94382,0 0,41.99946 7.7279,0 z m 0,-17.97577 6.94391,0 c 2.39162,0.035 3.95026,0.53903 4.67594,1.51198 0.72564,0.97302 1.0523,2.20501 0.97999,3.69596 0.0723,1.52017 -0.25435,2.77782 -0.97999,3.77295 -0.72568,0.99518 -2.28432,1.51084 -4.67594,1.54698 l -6.94391,0 z"style="fill:#ffffff;fill-opacity:1"id="path3762" /><path d="m 221.60008,140.93361 0,-41.99946 -7.55991,0 0.112,26.31966 -16.96778,-26.31966 -6.04792,0 0,41.99946 7.5599,0 -0.112,-26.31966 16.96778,26.31966 z"style="fill:#ffffff;fill-opacity:1"id="path3764" /><path d="m 235.29764,140.93361 3.35996,-10.63986 11.59185,0 3.52795,10.63986 8.3439,0 -14.89581,-42.895449 -5.37593,0 -14.95181,42.895449 z m 15.06381,-51.071343 c -0.0257,-2.006588 -0.56235,-3.481234 -1.60998,-4.423944 -1.04768,-0.942598 -2.45232,-1.409258 -4.21395,-1.399981 -1.78849,-0.0093 -3.20947,0.457384 -4.26294,1.399981 -1.0535,0.942709 -1.59249,2.417355 -1.61698,4.423944 0.0245,1.979857 0.56348,3.43817 1.61698,4.374943 1.05347,0.936866 2.47445,1.401193 4.26294,1.392982 1.76163,0.0082 3.16627,-0.456115 4.21395,-1.392981 1.04763,-0.936774 1.58429,-2.395087 1.60998,-4.374944 z m -2.40797,33.095573 -6.94391,0 3.52795,-10.97586 z M 246.5535,89.862267 c -0.004,0.718707 -0.17852,1.227366 -0.525,1.525979 -0.34651,0.298712 -0.8435,0.443377 -1.49098,0.433995 -0.67201,0.0094 -1.176,-0.135281 -1.51198,-0.433994 -0.33601,-0.298614 -0.50401,-0.807273 -0.50399,-1.52598 -2e-5,-0.772272 0.16798,-1.313597 0.50399,-1.62398 0.33598,-0.310276 0.83997,-0.459608 1.51198,-0.447994 0.64748,-0.01161 1.14447,0.137719 1.49098,0.447994 0.34648,0.310381 0.52147,0.851707 0.525,1.62398 z"style="fill:#ffffff;fill-opacity:1"id="path3766" /><path d="m 272.91215,129.17376 2.01597,-30.23961 -9.07188,0 2.01597,30.23961 z m -7.05591,7.9519 c 0.0315,1.29148 0.47249,2.36247 1.32298,3.21296 0.85049,0.85048 1.92147,1.29148 3.21296,1.32298 1.29381,-0.0315 2.37413,-0.47249 3.24096,-1.32298 0.86681,-0.85049 1.31714,-1.92148 1.35098,-3.21296 -0.0338,-1.29381 -0.48417,-2.37413 -1.35098,-3.24096 -0.86683,-0.86681 -1.94715,-1.31714 -3.24096,-1.35098 -1.29149,0.0338 -2.36247,0.48417 -3.21296,1.35098 -0.85049,0.86683 -1.29149,1.94715 -1.32298,3.24096 z"style="fill:#ffffff;fill-opacity:1"id="path3768" /></g></g></svg>
     </div>
     <div id="ebokHow">
-      <div>VELG SJANGER,</div>
+      <!-- <div>VELG SJANGER,</div> -->
       <div>VELG BOK, OG TRYKK</div>
       <div>PÅ LYDIKONET</div>
-      <select id="ebokCombo" class="ebokCombo">
+<!--       <select id="ebokCombo" class="ebokCombo">
         <option value ="barnebker">BARNEBØKER</option>
         <option value ="biografier">BIOGRAFIER</option>
         <option value ="helse-livsstil-og-fritid">HELSE OG LIVSSTIL</option>
         <option value ="krim">KRIM</option>
         <option value ="skjnnlitteratur">SKJØNNLITTERATUR</option>
-      </select>
+      </select> -->
       <div id="ebokFooter">EBOK.NO-appen er tilgjengelig for iPhone, iPad og Android</div>
     </div>
-
 
   </div>
   <div id="ebokLogo"><a id="clickTAG" href="http://ebok.no" class="clicktagged"><img src="logo_circle_small.png" width="66" height="134"></a></div>
@@ -349,10 +338,8 @@ function ebokAdClick(el) {
   </div>
 </div>
 
-
-<script type="text/javascript"> // minified ebok.js
-document.addEventListener("DOMContentLoaded",function(){function v(a){for(var b=document.createElement("div"),c="",g=0;g<a.length;++g){if("undefined"!=typeof b.style[a[g]])return a[g];c=null}return c}function x(a){a&&a.preventDefault&&a.preventDefault();if(!d||!d.length||!q)return!1;h++;m(h)}function E(a){a.preventDefault();h--;0>h&&(h+=d.length);m(h)}function m(a){var b=0,b=0;return"number"==typeof a?(b=a,0>b&&(b+=d.length),b=270+b*q,360<b&&Math.abs(b-n>2*q)&&(b-=360),n=b,p=!0,y(),!0):!1}function F(a){a= d[a]||null;var b=null,c=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)||!1;c=a.getElementsByClassName("ebokPlayButton").item(0)||!1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.display="block";b.style.visibility="visible";b.style.opacity=1;c.style.opacity=1}function G(a){a=d[a]||null;var b=null,c=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)||!1;c=a.getElementsByClassName("ebokPlayButton").item(0)|| !1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.opacity=0;b.style.visibility="hidden";c.style.opacity=.005}function y(){var a,b=0;if(p)if(requestAnimationFrame(y),a=k,a==n)p=!1;else{a=(n-k)/20;.01>Math.abs(a)?(k=n,p=!1):k+=a;if(!d||!d.length)return p=!1,console.error("not items or items.length"),!1;q=360/d.length;d.forEach(function(a,g,z){var l;l=k+g/d.length*360;z=180+200*Math.cos(l*Math.PI/180);l=-100+360*Math.sin(l*Math.PI/180);var e=Math.ceil(l+ 1440);a.style.zIndex=e;null===r?r=e:e<r&&(r=e);e>b?(b=e,A<b&&(A=b),topMost=g,a.style.opacity=1):a.style.opacity=.8;a.style[H]="translateY(0px) translateZ("+l+"px)translateX("+z+"px)"});topMost!=t&&(null!==t&&G(t),t=topMost,F(topMost))}}function I(){dhtml.getVar("landingPageTarget","_blank");var a=document.getElementsByClassName("clicktagged")||null;if(a&&a.length)for(var b=0;b<a.length;b++){var c=a[b].id;c&&(c=dhtml.getVar(c,a[b].href),a[b].href=c)}}function J(a){a=a||document.getElementById("ebokList"); var b=0;if(!a)return console.error("No element in removeChildren()"),!1;for(;a.firstChild;)a.removeChild(a.firstChild),b++;return b}function B(a){var b=0,c=document.createDocumentFragment(),g=document.getElementById("ebokList");if(d.length)for(;0<d.length;)d.pop();a.forEach(function(a,g,e){e=document.createElement("li");a={simple_authors:a[0],name:a[1],image_url:a[2],sample_url:a[3],absolute_url:a[4],price:a[5],slug:a[6],id:a[6],clickTagSample:a[7],clickTagBuy:a[8],i:g};e&&10>b&&(e.style.class="ebokListItem", e.innerHTML=K.render(C,a),c.appendChild(e),b++,d.push(e))});J(g);g.appendChild(c);I();window.ebokFirstRun?(m(5),setTimeout(x,100)):(window.ebokFirstRun=!0,m(5))}var C=null,u=null;(new Date).getTime();var f=null,D=null,k=269,n=270,h=0,t=null,q=0,r=null,A=0,p=!1,L=document.getElementById("ebokPrev"),M=document.getElementById("ebokNext"),N=document.getElementById("ebokCombo"),f=document.getElementById("ebokCarousel");document.getElementById("ebokList");document.getElementById("ebokMover");var d=[],w= new XMLHttpRequest;"undefined"!==typeof dhtml&&dhtml&&"function"==typeof dhtml.getVar||console.error("AdForm DHTML Api not loaded! Shimming ... ");document.getElementById("ebokContent").addEventListener("click",preventDef,!0);document.getElementById("ebokMain").onclick=null;document.getElementById("ebokMain").addEventListener("click",function(a){a.target instanceof HTMLDivElement&&"touchTarget"!=a.target.id?window.open(dhtml.getVar("clickTAG","https://ebok.no/"),"new_window"):a.target instanceof HTMLImageElement&& a.target.alt.indexOf("/")},!0);C='<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a id="{clickTagSample}" class="clicktagged" href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a id="{clickTagBuy}" class="clicktagged" href="http://ebok.no{absolute_url}">{price},- Kj\u00f8p n\u00e5!</a></div></div>'; f=f.getBoundingClientRect();f.width=f.right-f.left;f.middle=f.left+f.width/2;(function(){for(var a=0,b=["webkit","moz"],c=0;c<b.length&&!window.requestAnimationFrame;++c)window.requestAnimationFrame=window[b[c]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[b[c]+"CancelAnimationFrame"]||window[b[c]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(b,c){var d=(new Date).getTime(),e=Math.max(0,16-(d-a)),f=window.setTimeout(function(){b(d+ e)},e);a=d+e;return f});window.cancelAnimationFrame||(window.cancelAnimationFrame=function(a){clearTimeout(a)})})();var H=v(["transform","msTransform","MozTransform","WebkitTransform","OTransform"]);v(["transition","msTransition","MozTransition","WebkitTransition","OTransition"]);v(["animation","msAnimation","MozAnimation","WebkitAnimation","OAnimation"]);window.moveToItem=m;w.onload=function(){try{(u=JSON.parse(this.responseText))?(L.addEventListener("click",E,!0),M.addEventListener("click",x,!0), B(u.barnebker)):console.error("data : ",u)}catch(a){console.error("caught exception "+a.name+" : "+a.message+" in xhr.onload()")}};w.open("get","data.json",!0);w.send();N.addEventListener("change",function(a){(D=u[this.options[this.selectedIndex].value])&&B(D)},!0);var K={render:function(a,b){a=a||null;var c={};b=b||{};if(!b||"object"!=typeof b)return console.error("NOT OBJECT, OR EMPTY OBJECT"),a+"<div>data==[] or !isArray(data)</div>";if(null===a)return console.error("NO TEMPLATE"),JSON.stringify({error:"no template"}); for(var d in c)"undefined"===typeof b[d]&&(b[d]=c[d]);for(var f in b)a=a.replace(new RegExp("{("+f+"[^}]?)}"),b[f]),a=a.replace(new RegExp("{("+f+"[^}]+)}"),b[f]);return a}}}); 
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded",function(){function v(a){for(var b=document.createElement("div"),d="",c=0;c<a.length;++c){if("undefined"!=typeof b.style[a[c]])return a[c];d=null}return d}function y(a){a&&"function"==typeof a.preventDefault&&a.preventDefault();if(!c||!c.length||!q)return!1;g++;r(g)}function D(a){a.preventDefault();g--;0>g&&(g+=c.length);r(g)}function r(a){var b=0,b=0;return"number"==typeof a?(b=a,0>b&&(b+=c.length),b=270+b*q,360<b&&Math.abs(b-n>2*q)&&(b-=360),n=b,p=!0, z(),!0):!1}function E(a){a=c[a]||null;var b=null,d=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)||!1;d=a.getElementsByClassName("ebokPlayButton").item(0)||!1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.display="block";b.style.visibility="visible";b.style.opacity=1;d.style.opacity=1}function F(a){a=c[a]||null;var b=null,d=null;a||console.error("No Book!");b=a.getElementsByClassName("ebokBuyButton").item(0)|| !1;d=a.getElementsByClassName("ebokPlayButton").item(0)||!1;if(!a&&!b)return console.error("setActiveBook() - missing book or element ("+a+", "+b+")!"),!1;b.style.opacity=0;b.style.visibility="hidden";d.style.opacity=.005}function z(){var a,b=0;if(p)if(requestAnimationFrame(z),a=l,a==n)p=!1;else{a=(n-l)/20;.01>Math.abs(a)?(l=n,p=!1):l+=a;if(!c||!c.length)return p=!1,console.error("not items or items.length"),!1;q=360/c.length;c.forEach(function(a,m,A){var h;h=l+m/c.length*360;A=180+200*Math.cos(h* Math.PI/180);h=-100+360*Math.sin(h*Math.PI/180);var e=Math.ceil(h+1440);a.style.zIndex=e;null===t?t=e:e<t&&(t=e);e>b?(b=e,B<b&&(B=b),topMost=m,a.style.opacity=1):a.style.opacity=.8;a.style[G]="translateY(0px) translateZ("+h+"px)translateX("+A+"px)"});topMost!=u&&(null!==u&&F(u),u=topMost,E(topMost))}}function H(){k.getVar("landingPageTarget","_blank");var a=document.getElementsByClassName("clicktagged")||null;if(a&&a.length)for(var b=0;b<a.length;b++){var d=a[b].id;d&&(d=k.getVar(d,a[b].href),a[b].href= d)}}function I(a){a=a||document.getElementById("ebokList");var b=0;if(!a)return console.error("No element in removeChildren()"),!1;for(;a.firstChild;)a.removeChild(a.firstChild),b++;return b}function J(a){var b=0,d=document.createDocumentFragment(),m=document.getElementById("ebokList");if(c.length)for(;0<c.length;)c.pop();a.forEach(function(a,h,e){e=document.createElement("li");a={simple_authors:a[0],name:a[1],image_url:a[2],sample_url:a[3],absolute_url:a[4],price:a[5],slug:a[6],id:a[6],clickTagSample:a[7], clickTagBuy:a[8],i:h};e&&10>b&&(e.style.class="ebokListItem",e.innerHTML=K.render(C,a),d.appendChild(e),b++,c.push(e))});I(m);m.appendChild(d);H();window.ebokFirstRun?(r(5),setTimeout(y,100)):(window.ebokFirstRun=!0,r(5))}var C=null,w=null;(new Date).getTime();var f=null,l=269,n=270,g=0,u=null,q=0,t=null,B=0,p=!1,L=document.getElementById("ebokPrev"),M=document.getElementById("ebokNext"),f=document.getElementById("ebokCarousel");document.getElementById("ebokList");document.getElementById("ebokMover"); var c=[],x=new XMLHttpRequest;if("undefined"===typeof k||!k||"function"!=typeof k.getVar){console.error("AdForm DHTML Api not loaded! Shimming ... ",k);var k={getVar:function(a,b){return a||b||"undefined"}}}document.getElementById("ebokContent").addEventListener("click",preventDef,!0);document.getElementById("ebokMain").onclick=null;document.getElementById("ebokMain").addEventListener("click",function(a){a.target instanceof HTMLDivElement&&"touchTarget"!=a.target.id?window.open(k.getVar("clickTAG", "https://ebok.no/"),"new_window"):a.target instanceof HTMLImageElement&&a.target.alt.indexOf("/")},!0);C='<div class="ebokListItem"><div class="ebokPlayButton" style="opacity:0;position:absolute; top:112px; left: 50px; z-index: 200000;"><span style="display:none;color:black; font: bold 24px sans-serif;">{i}</span><a id="{clickTagSample}" class="clicktagged" href="http://ebok.no{sample_url}" ><img class="playBtn" src="play.svg" width="40" height="40"></a></div><img src="{image_url}x150.jpg" width="150" height="150" alt="{name} - {simple_authors}"><div class="ebokBuyButton"><a id="{clickTagBuy}" class="clicktagged" href="http://ebok.no{absolute_url}">{price},- Kj\u00f8p n\u00e5!</a></div></div>'; f=f.getBoundingClientRect();f.width=f.right-f.left;f.middle=f.left+f.width/2;(function(){for(var a=["webkit","moz"],b=0;b<a.length&&!window.requestAnimationFrame;++b)window.requestAnimationFrame=window[a[b]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[a[b]+"CancelAnimationFrame"]||window[a[b]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(a,b){var c=(new Date).getTime(),h=Math.max(0,16-(c-f)),e=window.setTimeout(function(){a(c+h)}, h),f=c+h;return e});window.cancelAnimationFrame||(window.cancelAnimationFrame=function(a){clearTimeout(a)})})();var G=v(["transform","msTransform","MozTransform","WebkitTransform","OTransform"]);v(["transition","msTransition","MozTransition","WebkitTransition","OTransition"]);v(["animation","msAnimation","MozAnimation","WebkitAnimation","OAnimation"]);x.onload=function(){try{(w=JSON.parse(this.responseText))?(L.addEventListener("click",D,!0),M.addEventListener("click",y,!0),J(w.krim)):console.error("data : ", w)}catch(a){console.error("caught exception "+a.name+" : "+a.message+" in xhr.onload()")}};x.open("get","data.json",!0);x.send();var K={render:function(a,b){a=a||null;var c={};b=b||{};if(!b||"object"!=typeof b)return console.error("NOT OBJECT, OR EMPTY OBJECT"),a+"<div>data==[] or !isArray(data)</div>";if(null===a)return console.error("NO TEMPLATE"),JSON.stringify({error:"no template"});for(var f in c)"undefined"===typeof b[f]&&(b[f]=c[f]);for(var g in b)a=a.replace(new RegExp("{("+g+"[^}]?)}"),b[g]), a=a.replace(new RegExp("{("+g+"[^}]+)}"),b[g]);return a}}}); 
 </script>
-
 </body>
 </html>
