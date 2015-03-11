@@ -1,0 +1,43 @@
+{
+    "version": "1.0",
+
+    "title": "Ebok.no-980x300",
+    "description": "Dynamisk roterende HTML5-annonse med lytteprøve, kategori Krim",
+
+    "width" : "980",
+    "height": "300",
+
+    "events": {
+        "enabled": 1,
+        "list": { 
+            "1" : "nextBook",
+            "2" : "previousBook"
+        }
+    },
+
+    "clicktags": {
+        "clickTAG": "http:\/\/ebok.no",
+        "clickTAG2": "http:\/\/ebok.no\/market\/sample\/620837\/",
+        "clickTAG3": "http:\/\/ebok.no\/lydbok\/hypnotisoren_lars-kepler-2\/",
+        "clickTAG4": "http:\/\/ebok.no\/market\/sample\/550430\/",
+        "clickTAG5": "http:\/\/ebok.no\/lydbok\/nokkelvitnet_jorn-lier-horst-2\/",
+        "clickTAG6": "http:\/\/ebok.no\/market\/sample\/533470\/",
+        "clickTAG7": "http:\/\/ebok.no\/lydbok\/kvinnen-i-buret_jussi-adler-olsen\/",
+        "clickTAG8": "http:\/\/ebok.no\/market\/sample\/533585\/",
+        "clickTAG9": "http:\/\/ebok.no\/lydbok\/vinterstengt_jorn-lier-horst\/",
+        "clickTAG10": "http:\/\/ebok.no\/market\/sample\/532575\/",
+        "clickTAG11": "http:\/\/ebok.no\/lydbok\/flaggermusmannen_jo-nesbo\/",
+        "clickTAG12": "http:\/\/ebok.no\/market\/sample\/620858\/",
+        "clickTAG13": "http:\/\/ebok.no\/lydbok\/paganinikontrakten_lars-kepler-2\/",
+        "clickTAG14": "http:\/\/ebok.no\/market\/sample\/620866\/",
+        "clickTAG15": "http:\/\/ebok.no\/lydbok\/for-jeg-sovner_sj-watson\/",
+        "clickTAG16": "http:\/\/ebok.no\/market\/sample\/532576\/",
+        "clickTAG17": "http:\/\/ebok.no\/lydbok\/sorgenfri_jo-nesbo\/",
+        "clickTAG18": "http:\/\/ebok.no\/market\/sample\/532571\/",
+        "clickTAG19": "http:\/\/ebok.no\/lydbok\/rodstrupe_jo-nesbo\/",
+        "clickTAG20": "http:\/\/ebok.no\/market\/sample\/550429\/",
+        "clickTAG21": "http:\/\/ebok.no\/lydbok\/felicia-forsvant_jorn-lier-horst-2\/",
+    },
+
+    "source": "index.html"
+}
